@@ -1,0 +1,26 @@
+XML Parser
+        Read and spit out Javascript/java Object
+        
+With server:
+        can use database
+        
+        Server should check for new files every time-0-clock
+        
+        Do stats on new files and put them in databas
+        
+        Browser requests data from database for display
+        
+        
+Without server:
+        Request the file
+        
+        Local file storage for local database
+        
+Question:
+        How to get file
+        
+--------------------------------------------------------------
+
+Start with displaying results from one file (pass/fail/did-not-run)
+
+
