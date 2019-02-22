@@ -1,0 +1,21 @@
+<p>
+  test-list works!
+</p>
+<!-- <div *ngif=""> -->
+  <table id="single_run_test_table">
+    <tr class="head">
+      <th>Test</th>
+      <th>Duration</th>
+      <th>Status</th>
+      <th>Historical pass rate</th>
+      <th>Historical Run Rate</th>
+    </tr>
+    <tr *ngFor="let test of tests">
+    <td>{{ test.test_name }}</td>
+    <td>{{ test.durration }}</td>
+    <td>{{ test.status }}</td>
+    <td>{{ test.historical_pass_rate}}</td>
+    <td>{{ test.historical_run_rate }}</td>
+    </tr>
+  </table>
+<!-- </div> -->
