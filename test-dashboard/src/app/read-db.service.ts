@@ -5,5 +5,10 @@ import { Injectable } from '@angular/core';
 })
 export class ReadDbService {
 
-  constructor() { }
+  constructor() {
+
+  }
+  pull_project(projectname:string) {
+
+  }
 }
