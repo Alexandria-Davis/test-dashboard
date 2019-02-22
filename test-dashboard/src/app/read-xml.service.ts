@@ -5,6 +5,8 @@ import { Injectable } from '@angular/core';
 })
 export class ReadXmlService {
 
+  xml_data;
+
   constructor() { }
 
   read_xml() {
