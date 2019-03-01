@@ -6,13 +6,15 @@ import { AppComponent } from './app.component';
 import { ProjectPageComponent } from './project-page/project-page.component';
 import { TestListComponent } from './test-list/test-list.component';
 import { OverviewComponent } from './overview/overview.component';
+import { TestableComponent } from './testable/testable.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ProjectPageComponent,
     TestListComponent,
-    OverviewComponent
+    OverviewComponent,
+    TestableComponent
   ],
   imports: [
     BrowserModule,
