@@ -21,7 +21,7 @@ const routes: Routes = [
     component: ProjectPageComponent
   },
   {
-    path:'test',
+    path:'test', //area reserved for testing our stuff
     component: TestableComponent
   }
 ];
