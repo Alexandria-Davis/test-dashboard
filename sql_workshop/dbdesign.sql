@@ -7,6 +7,7 @@ CREATE TABLE `test_dashboard_schema`.`projects`
   PRIMARY KEY(`id),
 );
 
+  `name` VARCHAR(45) NOT NULL,
 CREATE TABLE `test_dashboard_schema`.`testrun` ( --top level of xml file
   `ID` INT,
   `Name` VARCHAR(45) NOT NULL,
@@ -27,7 +28,7 @@ CREATE TABLE `test_dashboard_schema`.`testSuite`
   -- `Time` FLOAT,
 );
 
-CREATE TABLE `test_names`
+CREATE TABLE `test_dashboard_schema`.`test_names`
 {
   `ID` INT,
   `test_name` varchar(45),
@@ -38,7 +39,7 @@ CREATE TABLE `test_names`
 CREATE TABLE `test_dashboard_schema`.`testcase`
 (
   `ID`  INT, --Needs to be unique because just about everything else repeats
-  `Test ID` INT,
+  `Test ID` INT foreign key references (`test_dashboard_schema`.`test_names`),
   `TestSuite` VARCHAR(45) NOT NULL,
   `classname` VARCHAR(45) NOT NULL,
   `Time` FLOAT,
@@ -49,7 +50,7 @@ CREATE TABLE `test_dashboard_schema`.`testcase`
 
 CREATE TABLE `test_dashboard_schema`.`errors_and_failures`
 (
-    `test` VARCHAR(45),
+    `test` INT foreign key references (`test_dashboard_schema`.`testcase`),
     `output` TEXT,
     `error/fail` boolean, --whether the test was an error or a fail
 )
