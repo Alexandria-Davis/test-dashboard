@@ -2,8 +2,9 @@ CREATE SCHEMA `test_dashboard_schema` ;
 
 CREATE TABLE `test_dashboard_schema`.`projects`
 (
-  `id` VARCHAR(45) NOT NULL,
-  `Project` VARCHAR(45) NOT NULL,
+  `id` int NOT NULL,
+  `Project_Name` VARCHAR(45) NOT NULL,
+  PRIMARY KEY(`id),
 );
 
 CREATE TABLE `test_dashboard_schema`.`testrun` ( --top level of xml file
@@ -16,7 +17,7 @@ CREATE TABLE `test_dashboard_schema`.`testrun` ( --top level of xml file
   --`Errors` VARCHAR(45) NULL, --can calculate
   `Ignores` VARCHAR(45) NULL,
   `date` datetime(),
-  PRIMARY KEY (`int` )
+  PRIMARY KEY (`ID` )
 );
 
 CREATE TABLE `test_dashboard_schema`.`testSuite`
@@ -26,15 +27,24 @@ CREATE TABLE `test_dashboard_schema`.`testSuite`
   -- `Time` FLOAT,
 );
 
+CREATE TABLE `test_names`
+{
+  `ID` INT,
+  `test_name` varchar(45),
+  `project` varchar(45);
+  PRIMARY KEY (`ID`)
+}
+
 CREATE TABLE `test_dashboard_schema`.`testcase`
 (
-  `ID`  INT; --Needs to be unique because just about everything else repeats
+  `ID`  INT, --Needs to be unique because just about everything else repeats
+  `Test ID` INT,
   `TestSuite` VARCHAR(45) NOT NULL,
-  `name` VARCHAR(45) NOT NULL,
   `classname` VARCHAR(45) NOT NULL,
   `Time` FLOAT,
   `status` VARCHAR(45),
   `Launched` datetime(),
+  PRIMARY KEY (`ID`)
 );
 
 CREATE TABLE `test_dashboard_schema`.`errors_and_failures`
