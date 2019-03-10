@@ -11,12 +11,12 @@ CREATE TABLE `test_dashboard_schema`.`projects`
 CREATE TABLE `test_dashboard_schema`.`testrun` ( --top level of xml file
   `ID` INT,
   `Name` VARCHAR(45) NOT NULL,
-  `Project` VARCHAR(45) NULL, --Refers to project that the tests belongs to
+  `Project` int(45) foreign key references(`test_dashboard_schema`.`projects`), --Refers to project that the tests belongs to
   --`test count` VARCHAR(45) NULL, --can calculate
   --`Started` VARCHAR(45) NULL, --can calculate
   --`Failed` VARCHAR(45) NULL, --can calculate
   --`Errors` VARCHAR(45) NULL, --can calculate
-  `Ignores` VARCHAR(45) NULL,
+  --`Ignores` VARCHAR(45) NULL, --can calculate
   `date` datetime(),
   PRIMARY KEY (`ID` )
 );
@@ -25,6 +25,7 @@ CREATE TABLE `test_dashboard_schema`.`testSuite`
 (
   `Test_Name` VARCHAR(45), --Refers to test in test suite
   `TestSuite` VARCHAR(45), --Refers to run of test
+  `Project` INT fOREIGN KEY REFERENCES (`test_dashboard_schema`.`projects`)
   -- `Time` FLOAT,
 );
 
@@ -32,7 +33,7 @@ CREATE TABLE `test_dashboard_schema`.`test_names`
 {
   `ID` INT,
   `test_name` varchar(45),
-  `project` varchar(45);
+  `project` INT fOREIGN KEY REFERENCES (`test_dashboard_schema`.`projects`);
   PRIMARY KEY (`ID`)
 }
 
@@ -43,7 +44,7 @@ CREATE TABLE `test_dashboard_schema`.`testcase`
   `TestSuite` VARCHAR(45) NOT NULL,
   `classname` VARCHAR(45) NOT NULL,
   `Time` FLOAT,
-  `status` VARCHAR(45),
+  `status` VARCHAR(10),
   `Launched` datetime(),
   PRIMARY KEY (`ID`)
 );
@@ -52,5 +53,5 @@ CREATE TABLE `test_dashboard_schema`.`errors_and_failures`
 (
     `test` INT foreign key references (`test_dashboard_schema`.`testcase`),
     `output` TEXT,
-    `error/fail` boolean, --whether the test was an error or a fail
+    `status` VARCHAR(10), --whether the test was an error or a fail
 )
