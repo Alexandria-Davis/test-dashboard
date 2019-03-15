@@ -4,8 +4,9 @@ CREATE TABLE `test_dashboard_schema`.`projects`
 (
   `id` int NOT NULL,
   `Project_Name` VARCHAR(45) NOT NULL,
-  PRIMARY KEY(`id),
+  PRIMARY KEY(`id`),
 );
+
 
   `name` VARCHAR(45) NOT NULL,
 CREATE TABLE `test_dashboard_schema`.`testrun` ( --top level of xml file
@@ -23,10 +24,9 @@ CREATE TABLE `test_dashboard_schema`.`testrun` ( --top level of xml file
 
 CREATE TABLE `test_dashboard_schema`.`testSuite`
 (
-  `Test_Name` VARCHAR(45), --Refers to test in test suite
   `TestSuite` VARCHAR(45), --Refers to run of test
   `Project` INT fOREIGN KEY REFERENCES (`test_dashboard_schema`.`projects`)
-  -- `Time` FLOAT,
+  `RunTime` FLOAT,
 );
 
 CREATE TABLE `test_dashboard_schema`.`test_names`
