@@ -1,0 +1,14 @@
+<html>
+  <head>
+    {%if title %}
+    <title>{{ title }} - Test Suite </title>
+    {% else %}
+    <title>Welcome to Test Dashboard</title>
+    {%endif%}
+  </head>
+  <body>
+    <div>Test Dashboard: <a href="/index">Home></a></div>
+    <hr>
+    {% block content%}{%endblock%}
+  </body>
+</html>
