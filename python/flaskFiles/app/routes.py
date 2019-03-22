@@ -8,6 +8,7 @@ from app import app
 @app.route('/TEST-SmokeTest.xml')
 @app.route('/index')
 def index():
+    xmldir = 'app/xml/'
     testFileName = 'TEST-SmokeTest.xml'
     testSuite = ''
     testCases = ''
@@ -18,8 +19,8 @@ def index():
     numSkipped = ''
     testName = ''
 
-    parsexmlFile(testFileName)
-    return render_template('index.html', title = fileName, TestInfomation = testName)
+    parsexmlFile(xmldir + testFileName)
+    return render_template('index.html', title = testFileName, TestInfomation = testName)
 
 @app.route('/api')
 def api():
@@ -45,8 +46,8 @@ def parsexmlFile(testFileName):
 
     name = testSuite[0].attributes['name'].value
     totalDuration = testSuite[0].attributes['time'].value
-    testInfo : {}
-    testName : {}
+    testInfo = {}
+    testName = {}
     for elem in testCases:
         testName.update({'testName':elem.attributes['name'].value})
         #print('Test case name: ' + testName)
