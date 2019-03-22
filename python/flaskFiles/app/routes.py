@@ -5,6 +5,8 @@ from xml.dom import minidom
 import xml.etree.ElementTree as etree
 import xml.etree.ElementTree as ElementTree
 from app import app
+from app.database_actions import database_actions
+from pprint import pprint
 
 @app.route('/')
 @app.route('/TEST-SmokeTest.xml')
@@ -30,13 +32,7 @@ def api():
     if (allowed): ## TODO: authenticate users before allowing them to do stuff
         id = request.args['id']
         action = request.args['action']
-        #godb = database_actions()
-        #json = godb.test()
-        json = {
-            "id":id,
-            "action":action,
-            "apple":"pear",
-        }
+        json = database_actions.dostuff(action, request.args)
         return jsonify(json)
 
 

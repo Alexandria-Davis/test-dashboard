@@ -19,8 +19,3 @@ from app import routes, models
 
 db.create_all()
 db.session.commit()
-
-## TODO: make seeding not automatic
-from app.database_actions import seed, build
-build();
-seed();

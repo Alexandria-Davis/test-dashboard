@@ -20,7 +20,7 @@ class test_suite(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     testsuite = db.Column(db.String(64))
     project = db.Column(db.Integer, db.ForeignKey('projects.id'))
-    runTime = db.Column(db.FLOAT)
+    runtime = db.Column(db.FLOAT)
 
 class test_names(db.Model):
     id = db.Column(db.Integer, primary_key=True)
