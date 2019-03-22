@@ -16,23 +16,32 @@ def index():
     failedTest
     numSkipped
     testName
-    
+
     parsexmlFile(fileName)
     return render_template('index.html', title = fileName, TestInfomation = testName)
+
+@app.route('/api')
+def api():
+    id = request.args['id']
+    action = request.args['action']
+    return render_template('index.html')
+
+
+
 
 def parsexmlFile(testFileName):
     myDoc = minidom.parse(fileName)
     #testRun = myDoc.getElementsByTagName('testrun')
     testSuite = myDoc.getElementsByTagName('testsuite')
     testCases = myDoc.getElementsByTagName('testcase')
-    
+
     testRunName = testSuite[0].attributes['name']
     totalTests = testSuite[0].attributes['tests'].value
     numErrors = testSuite[0].attributes['errors'].value
     failedTest = testSuite[0].attributes['failures'].value
     numSkipped = testSuite[0].attributes['skipped'].value
     #numIgnored = testSuite[0].attributes['ignored'].value
-    
+
     name = testSuite[0].attributes['name'].value
     totalDuration = testSuite[0].attributes['time'].value
     testInfo : {}
@@ -46,7 +55,7 @@ def parsexmlFile(testFileName):
         errorBool = False
         failureBool = False
         skippedBool = False
-        
+
         if(error != [] and time != 0):
             errorBool = True
             #root = etree.Element(elem)
