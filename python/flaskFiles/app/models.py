@@ -1,63 +1,45 @@
 from datetime import datetime
 from app import db
 
-# CREATE SCHEMA `test_dashboard_schema` ;
-#
 class projects(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     project_name = db.Column(db.String(64), index=True,unique=False)
 
-# CREATE TABLE `test_dashboard_schema`.`projects`
-# (
-#   `id` int NOT NULL,
-#   `Project_Name` VARCHAR(45) NOT NULL,
-#   PRIMARY KEY(`id`),
-# );
-#
 class testRun(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True, unique=False)
-
-# CREATE TABLE `test_dashboard_schema`.`testrun` ( --top level of xml file
-#   `ID` INT,
-#   `Name` VARCHAR(45) NOT NULL,
-#   `Project` int(45) foreign key references(`test_dashboard_schema`.`projects`), --Refers to project that the tests belongs to
+    project = db.Column(db.Integer, index=True, unique=False)
+    date = db.Column(db.DateTime, index=False, unique=False)
 #   --`test count` VARCHAR(45) NULL, --can calculate
 #   --`Started` VARCHAR(45) NULL, --can calculate
 #   --`Failed` VARCHAR(45) NULL, --can calculate
 #   --`Errors` VARCHAR(45) NULL, --can calculate
 #   --`Ignores` VARCHAR(45) NULL, --can calculate
-#   `date` datetime(),
-#   PRIMARY KEY (`ID` )
-# );
-#
-# CREATE TABLE `test_dashboard_schema`.`testSuite`
-# (
-#   `TestSuite` VARCHAR(45), --Refers to run of test
-#   `Project` INT fOREIGN KEY REFERENCES (`test_dashboard_schema`.`projects`)
-#   `RunTime` FLOAT,
-# );
-#
-# CREATE TABLE `test_dashboard_schema`.`test_names`
-# {
-#   `ID` INT,
-#   `test_name` varchar(45),
-#   `project` INT fOREIGN KEY REFERENCES (`test_dashboard_schema`.`projects`);
-#   PRIMARY KEY (`ID`)
-# }
-#
-# CREATE TABLE `test_dashboard_schema`.`testcase`
-# (
-#   `ID`  INT, --Needs to be unique because just about everything else repeats
-#   `Test ID` INT foreign key references (`test_dashboard_schema`.`test_names`),
-#   `TestSuite` VARCHAR(45) NOT NULL,
-#   `classname` VARCHAR(45) NOT NULL,
-#   `Time` FLOAT,
-#   `status` VARCHAR(10),
-#   `Launched` datetime(),
-#   PRIMARY KEY (`ID`)
-# );
-#
+
+class test_suite(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    testsuite = db.Column(db.String(64))
+    project = db.Column(db.Integer, db.ForeignKey('projects.id'))
+    runTime = db.Column(db.FLOAT)
+
+class test_names(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    test_name = db.Column(db.String(64))
+    project = db.Column(db.Integer, db.ForeignKey('projects.id'))
+
+class test_case(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    test_id = db.Column(db.Integer, db.ForeignKey('test_names.id'))
+    test_suite = db.Column(db.Integer, db.ForeignKey('test_suite.id'))
+    classname = db.Column(db.String(64))
+    time = db.Column(db.FLOAT)
+    status = db.Column(db.String(10))
+    launched = db.Column(db.DateTime)
+
+class issues(db.Model):
+    test = db.Column(db.Integer, db.ForeignKey('test_case.id'))
+    output = db.Column(db.TEXT)
+    status = db.Column(db.VARCHAR(10))
 # CREATE TABLE `test_dashboard_schema`.`errors_and_failures`
 # (
 #     `test` INT foreign key references (`test_dashboard_schema`.`testcase`),
