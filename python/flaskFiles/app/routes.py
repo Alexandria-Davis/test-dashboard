@@ -5,19 +5,20 @@ import xml.etree.ElementTree as ElementTree
 from app import app
 
 @app.route('/')
+@app.route('/TEST-SmokeTest.xml')
 @app.route('/index')
 def index():
     testFileName = 'TEST-SmokeTest.xml'
-    testSuite
-    testCases
-    testRunName
-    totalTests
-    numErrors
-    failedTest
-    numSkipped
-    testName
+    testSuite = ''
+    testCases = ''
+    testRunName = ''
+    totalTests = ''
+    numErrors = ''
+    failedTest = ''
+    numSkipped = ''
+    testName = ''
 
-    parsexmlFile(fileName)
+    parsexmlFile(testFileName)
     return render_template('index.html', title = fileName, TestInfomation = testName)
 
 @app.route('/api')
@@ -30,7 +31,7 @@ def api():
 
 
 def parsexmlFile(testFileName):
-    myDoc = minidom.parse(fileName)
+    myDoc = minidom.parse(testFileName)
     #testRun = myDoc.getElementsByTagName('testrun')
     testSuite = myDoc.getElementsByTagName('testsuite')
     testCases = myDoc.getElementsByTagName('testcase')
@@ -47,7 +48,7 @@ def parsexmlFile(testFileName):
     testInfo : {}
     testName : {}
     for elem in testCases:
-        testName.update('testName':elem.attributes['name'].value)
+        testName.update({'testName':elem.attributes['name'].value})
         #print('Test case name: ' + testName)
         time = elem.attributes['time'].value
         error = elem.getElementsByTagName('error')
@@ -70,11 +71,11 @@ def parsexmlFile(testFileName):
             print(failure)
         elif(time == '0'):
             skippedBool = True
-#        else:
-#            print("Total runtime is " + time)
-#            print("Success")
-        testInfo.update('time':time)
-        testInfo.update('error': errorBool)
-        testInfo.update('failure': failureBool)
-        testInfo.update('ignored': skippedBool)
-    testName.update('Test Information': testInfo)
+        #        else:
+        #            print("Total runtime is " + time)
+        #            print("Success")
+        testInfo.update({'time':time})
+        testInfo.update({'error': errorBool})
+        testInfo.update({'failure': failureBool})
+        testInfo.update({'ignored': skippedBool})
+    testName.update({'Test Information': testInfo})
