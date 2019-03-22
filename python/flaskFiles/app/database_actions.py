@@ -13,17 +13,15 @@ class database_actions:
             json.update(database_actions.get_table())
         return json
     def getstuff():
-        return
+        return {"stuff":"gotten"}
     def get_table():
         return {"table":"gotten"}
 
-    def add_from_file(dictionaried)
-    {
-    print("Parsing file\n\n")
-    pprint(dictionaried)
-    print("\n\nFile Parsed")
-    return 0
-    }
+    def add_from_file(dictionaried):
+        print("Parsing file\n\n")
+        pprint(dictionaried)
+        print("\n\nFile Parsed")
+        return 0
 
     def seed():
         #projects
