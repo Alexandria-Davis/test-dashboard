@@ -1,4 +1,4 @@
-<!-- <html>
+<html>
   <head>
     {% if title %}
     <title>{{ title }} - Microblog </title>
@@ -7,16 +7,12 @@
     {% endif %}
   </head>
   <body>
-    <h1>Hello, {{ user.username }}! </h1>
-    {% for post in posts %}
-    <div><p>{{ post.author.username }} says: <b>{{ post.body}}</b> </p></div>
-    {% endfor %}
+    {% extends "base.html" %}
+    {% block content %}
+      <h1>{{ title }}! - Dashboard</h1>
+      {% for tests in TestInfomation%}
+      <div><p>{{tests.testName.testName }} says: <b>{{ testName.body }}</b></p></div>
+      {% endfor%}
+    {% endblock %}
   </body>
 </html> -->
-{% extends "base.html" %}
-{% block content %}
-  <h1>{{ title }}! - Dashboard</h1>
-  {% for tests in TestInfomation%}
-  <div><p>{{tests.testName.testName }} says: <b>{{ testName.body }}</b></p></div>
-  {% endfor%}
-{% endblock %}
