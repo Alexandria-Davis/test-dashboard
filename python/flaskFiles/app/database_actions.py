@@ -1,5 +1,6 @@
 from app.models import *
 from app import db
+from pprint import pprint
 class database_actions:
     def __init__():
         return
@@ -13,6 +14,16 @@ class database_actions:
         return json
     def getstuff():
         return
+    def get_table():
+        return {"table":"gotten"}
+
+    def add_from_file(dictionaried)
+    {
+    print("Parsing file\n\n")
+    pprint(dictionaried)
+    print("\n\nFile Parsed")
+    return 0
+    }
 
     def seed():
         #projects
@@ -53,5 +64,3 @@ class database_actions:
 
         db.session.commit()
         return {"seeded":"true"}
-    def get_table():
-        return {"table":"gotten"}
