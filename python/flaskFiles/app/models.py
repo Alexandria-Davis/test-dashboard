@@ -37,6 +37,7 @@ class test_case(db.Model):
     launched = db.Column(db.DateTime)
 
 class issues(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
     test = db.Column(db.Integer, db.ForeignKey('test_case.id'))
     output = db.Column(db.TEXT)
     status = db.Column(db.VARCHAR(10))
