@@ -1,4 +1,6 @@
 from flask import render_template
+from flask import jsonify
+from flask import request
 from xml.dom import minidom
 import xml.etree.ElementTree as etree
 import xml.etree.ElementTree as ElementTree
@@ -24,9 +26,18 @@ def index():
 
 @app.route('/api')
 def api():
-    id = request.args['id']
-    action = request.args['action']
-    return render_template('index.html')
+    allowed = True
+    if (allowed): ## TODO: authenticate users before allowing them to do stuff
+        id = request.args['id']
+        action = request.args['action']
+        #godb = database_actions()
+        #json = godb.test()
+        json = {
+            "id":id,
+            "action":action,
+            "apple":"pear",
+        }
+        return jsonify(json)
 
 
 
