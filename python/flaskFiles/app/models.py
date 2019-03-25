@@ -1,5 +1,7 @@
 from datetime import datetime
-from app import db
+from __init__ import db
+#@app.route('/')
+#from app.db import db
 
 class projects(db.Model):
     id = db.Column(db.Integer, primary_key=True)
