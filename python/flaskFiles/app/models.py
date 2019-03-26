@@ -1,5 +1,5 @@
 from datetime import datetime
-from __init__ import db
+from app import db
 #@app.route('/')
 #from app.db import db
 

@@ -1,5 +1,5 @@
-from models import *
-from __init__ import db
+from app.models import *
+from app import db
 from pprint import pprint
 
 class database_actions:
