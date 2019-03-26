@@ -7,6 +7,7 @@ import { ProjectPageComponent } from './project-page/project-page.component';
 import { TestListComponent } from './test-list/test-list.component';
 import { OverviewComponent } from './overview/overview.component';
 import { TestableComponent } from './testable/testable.component';
+import { FailuresComponent } from './failures/failures.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { TestableComponent } from './testable/testable.component';
     ProjectPageComponent,
     TestListComponent,
     OverviewComponent,
-    TestableComponent
+    TestableComponent,
+    FailuresComponent
   ],
   imports: [
     BrowserModule,
