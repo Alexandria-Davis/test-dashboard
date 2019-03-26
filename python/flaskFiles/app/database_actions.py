@@ -67,4 +67,3 @@ class database_actions:
         issue1 = issues(id = 1, test=1, output="Test output. In actuallity this will get very long and very messy. I'm just leaving this here though", status="fail")
         db.session.commit()
         return {"seeded":"true"}
-

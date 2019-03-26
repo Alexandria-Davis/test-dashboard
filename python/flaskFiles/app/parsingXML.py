@@ -3,60 +3,78 @@ from xml.dom import minidom
 import pprint
 import xml.etree.ElementTree as etree
 import xml.etree.ElementTree as ElementTree
-from database_actions import add_from_file
+from app.database_actions import database_actions
 
 def parsexmlFile(testFileName):
     myDoc = minidom.parse(testFileName)
-    #testRun = myDoc.getElementsByTagName('testrun')
+
     testSuite = myDoc.getElementsByTagName('testsuite')
     testCases = myDoc.getElementsByTagName('testcase')
-    
+
     totalTests = testSuite[0].attributes['tests'].value
     numErrors = testSuite[0].attributes['errors'].value
     failedTest = testSuite[0].attributes['failures'].value
     numSkipped = testSuite[0].attributes['skipped'].value
-    #numIgnored = testSuite[0].attributes['ignored'].value
-    
+
     name = testSuite[0].attributes['name'].value
     totalDuration = testSuite[0].attributes['time'].value
+    overallInfo= {}
+    suiteInfo = []
+    indivTestInfo = []
     testInfo = []
-    allTestInfo = {}
-    
+
     for elem in testCases:
-        testInfo.append({'testName':elem.attributes['name'].value})
-        #print('Test case name: ' + testName)
+
         time = elem.attributes['time'].value
         error = elem.getElementsByTagName('error')
         failure = elem.getElementsByTagName('failure')
+        skipped = elem.getElementsByTagName('skipped')
+        className = elem.attributes['classname'].value
         errorBool = False
         failureBool = False
         skippedBool = False
-        
+        errorMessage = 'None'
+        failureMessage = 'None'
+        skippedMessage = 'None'
+
         if(error != [] and time != 0):
             errorBool = True
-            #root = etree.Element(elem)
-            #for log in root.xpath("//error"):
-            #print log.text
-            print(error)
+            errorMessage = 'Error'
+        #root = etree.Element(elem)
+#            for log in root.xpath("//error"):
+#                print log.text
+#            print(error)
         elif(failure != [] and time != 0):
             failureBool = True
-            #root = etree.Element(elem)
-            #for log in root.xpath("//failure"):
-            #print log.text
-            print(failure)
+            failureMessage = 'Failure'
+        #root = etree.Element(elem)
+#            for log in root.xpath('.//failure'):
+#                print log.text
+#            print(failure)
         elif(time == '0'):
             skippedBool = True
+            skippedMessage = skipped[0].attributes['message'].value
         #        else:
         #            print("Total runtime is " + time)
         #            print("Success")
-        testInfo.append({'time':time})
-        testInfo.append({'error': errorBool})
-        testInfo.append({'failure': failureBool})
-        testInfo.append({'ignored': skippedBool})
-    allTestInfo.update({'Test Information': testInfo})
-    allTestInfo.update({'suiteName':name,'totalTime':totalDuration,'totalTest':totalTests,'numErrors':numErrors,'failedTest':failedTest,'numSkipped':numSkipped})
-    
-    return allTestInfo
+        indivTestInfo.append({'time':time})
+        indivTestInfo.append({'error': errorBool})
+        indivTestInfo.append({'errorMessage': errorMessage})
+        indivTestInfo.append({'failure': failureBool})
+        indivTestInfo.append({'failureMessage': failureMessage})
+        indivTestInfo.append({'ignored': skippedBool})
+        indivTestInfo.append({'ignoredMessage': skippedMessage})
+        indivTestInfo.append({'className':className})
+        indivTestInfo.append({'testName':elem.attributes['name'].value})
+
+        testInfo.append({'Individual Test Information': indivTestInfo})
+        indivTestInfo = []
+    suiteInfo.append({'suiteName':name,'totalTime':totalDuration,'totalTest':totalTests,'numErrors':numErrors,'failedTest':failedTest,'numSkipped':numSkipped})
+
+    overallInfo.update({'SuiteInfo': suiteInfo})
+    overallInfo.update({'Info': testInfo})
+
+    return overallInfo
 
 if __name__ == "__main__":
     pp = pprint.PrettyPrinter(indent=4)
