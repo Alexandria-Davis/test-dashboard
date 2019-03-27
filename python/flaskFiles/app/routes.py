@@ -18,6 +18,7 @@ def index():
 
     testInfo = parsexmlFile(xmldir + testFileName)
     pprint(testInfo)
+    database_actions.add_from_file(testInfo)
     return render_template('index.html', title = testFileName, TestInformation = testInfo)
 
 @app.route('/api')
