@@ -67,7 +67,7 @@ def parsexmlFile(testFileName):
         indivTestInfo.append({'className':className})
         indivTestInfo.append({'testName':elem.attributes['name'].value})
 
-        testInfo.append({'Individual Test Information': indivTestInfo})
+        testInfo.append({'IndividualTestInformation': indivTestInfo})
         indivTestInfo = []
     suiteInfo.append({'suiteName':name,'totalTime':totalDuration,'totalTest':totalTests,'numErrors':numErrors,'failedTest':failedTest,'numSkipped':numSkipped})
 
