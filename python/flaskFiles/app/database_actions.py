@@ -6,8 +6,6 @@ class database_actions:
     def __init__():
         return
     def dostuff(action,params):
-        json = {"test":"success"}
-
         if (action == "seed"):
             json.update(database_actions.seed());
         if (action == "get_table"):
@@ -24,7 +22,7 @@ class database_actions:
         test_names.project == proj_id,
         #test_case.test_id == test_names.id
         )
-        q.add_columns('test_names.test_name', 'test_case.time', 'test_case.test_id', 'test_case.id')
+        q.add_columns('test_names.test_name', 'test_case.time', 'test_case.test_id', 'test_case.id', 'test_case.status')
 
         v = q.all()
         results = [];
@@ -34,14 +32,18 @@ class database_actions:
                     "name":i.test_names.test_name,
                     "time":None,
                     "test_name_id":None,
-                    "test_id":None
+                    "test_id":None,
+                    "status":None,
+                    "last_run":"Never"
                 })
             else:
                 results.append({
                     "name":i.test_names.test_name,
                     "time":i.test_case.time,
                     "test_name_id":i.test_case.test_id,
-                    "test_id":i.test_case.id
+                    "test_id":i.test_case.id,
+                    "status":i.test_case.status,
+                    "last_run":"sometime"
                 })
 
         return {"Project:": proj_id, "results": results}
