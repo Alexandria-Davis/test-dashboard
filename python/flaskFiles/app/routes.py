@@ -30,7 +30,6 @@ def index():
 def api():
     allowed = True
     if (allowed): ## TODO: authenticate users before allowing them to do stuff
-        id = request.args['id']
         action = request.args['action']
         json = database_actions.dostuff(action, request.args)
         return jsonify(json)
