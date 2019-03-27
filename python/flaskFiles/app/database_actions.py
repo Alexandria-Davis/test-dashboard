@@ -19,14 +19,37 @@ class database_actions:
 
 
     def get_tests_for_project(proj_id):
-        return {"Project:": proj_id}
+        q = db.session.query(test_names, test_case).outerjoin(test_case).filter(
+        test_names.project == proj_id,
+        #test_case.test_id == test_names.id
+        )
+        q.add_columns('test_names.test_name', 'test_case.time', 'test_case.test_id', 'test_case.id')
+
+        v = q.all()
+        results = [];
+        for i in v:
+            if i.test_case is None:
+                results.append({
+                    "name":i.test_names.test_name,
+                    "time":None,
+                    "test_name_id":None,
+                    "test_id":None
+                })
+            else:
+                results.append({
+                    "name":i.test_names.test_name,
+                    "time":i.test_case.time,
+                    "test_name_id":i.test_case.test_id,
+                    "test_id":i.test_case.id
+                })
+
+        return {"Project:": proj_id, "results": results}
     def get_table():
         return {"table":"gotten"}
     def get_projects():
         q = db.session.query(projects)
         q.add_columns('id','project_name')
         v = q.all()
-        pprint(v)
         results = []
         for i in v:
             results.append({"id":i.id,"name":i.project_name})
@@ -47,6 +70,7 @@ class database_actions:
             db.session.add(project1)
             project2 = projects(id=None,project_name="testproject2")
             db.session.add(project2)
+            db.session.commit()
             #test runs
             testrun1 = testRun(id=1,name="testrun1",project=1,date=None)
             db.session.add(testrun1)
@@ -56,6 +80,7 @@ class database_actions:
             db.session.add(testrun3)
             testrun4 = testRun(id=None,name="testrun4",project=2,date=None)
             db.session.add(testrun4)
+            db.session.commit()
             #test suites
             testsuite1 = test_suite(id=1,testsuite="testsuite1", project=1,runtime=1.1)
             db.session.add(testsuite1)
@@ -65,16 +90,29 @@ class database_actions:
             db.session.add(testsuite3)
             testsuite4 = test_suite(id=None,testsuite="testsuite4", project=1,runtime=4.35)
             db.session.add(testsuite4)
+            db.session.commit()
             #test names
-            test1 = test_names(id=1,test_name="test1",project=1)
+            test1 = test_names(id=1,test_name="test1.1",project=1)
             db.session.add(test1)
-            test2 = test_names(id=None,test_name="test1",project=1)
+            test2 = test_names(id=None,test_name="test1.2",project=1)
             db.session.add(test2)
-            test3 = test_names(id=None,test_name="test1",project=1)
+            test3 = test_names(id=None,test_name="test2.1",project=2)
             db.session.add(test3)
+            test4 = test_names(id=None,test_name="test2.2",project=2)
+            db.session.add(test4)
+            db.session.commit()
             #test_case
             testcase1 = test_case(id=1, test_id=1, test_suite=1,classname="idk",time=12.2,status="failed",launched=None)
             db.session.add(testcase1)
+            testcase2 = test_case(id=None, test_id=1, test_suite=1,classname="idk",time=13.2,status="passed",launched=None)
+            db.session.add(testcase2)
+            testcase3 = test_case(id=None, test_id=2, test_suite=1,classname="idk",time=13.2,status="passed",launched=None)
+            db.session.add(testcase3)
+            testcase4 = test_case(id=None, test_id=3, test_suite=1,classname="idk",time=13.2,status="passed",launched=None)
+            db.session.add(testcase4)
+            testcase5 = test_case(id=None, test_id=4, test_suite=1,classname="idk",time=13.2,status="passed",launched=None)
+            db.session.add(testcase5)
+            db.session.commit()
             #issues
             issue1 = issues(id = 1, test=1, output="Test output. In actuallity this will get very long and very messy. I'm just leaving this here though", status="fail")
             db.session.commit()
