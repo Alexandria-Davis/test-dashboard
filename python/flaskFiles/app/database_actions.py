@@ -1,11 +1,12 @@
 from app.models import *
 from app import db
 from pprint import pprint
-
+import datetime
 class database_actions:
     def __init__():
         return
     def dostuff(action,params):
+        json = {}
         if (action == "seed"):
             json.update(database_actions.seed());
         if (action == "get_table"):
@@ -22,7 +23,7 @@ class database_actions:
         test_names.project == proj_id,
         #test_case.test_id == test_names.id
         )
-        q.add_columns('test_names.test_name', 'test_case.time', 'test_case.test_id', 'test_case.id', 'test_case.status')
+        q.add_columns('test_names.test_name', 'test_case.time', 'test_case.launched' 'test_case.test_id', 'test_case.id', 'test_case.status')
 
         v = q.all()
         results = [];
@@ -34,7 +35,7 @@ class database_actions:
                     "test_name_id":None,
                     "test_id":None,
                     "status":None,
-                    "last_run":"Never"
+                    "last_run":None
                 })
             else:
                 results.append({
@@ -43,7 +44,7 @@ class database_actions:
                     "test_name_id":i.test_case.test_id,
                     "test_id":i.test_case.id,
                     "status":i.test_case.status,
-                    "last_run":"sometime"
+                    "last_run":i.test_case.launched
                 })
 
         return {"Project:": proj_id, "results": results}
@@ -105,15 +106,15 @@ class database_actions:
             db.session.add(test4)
             db.session.commit()
             #test_case
-            testcase1 = test_case(id=1, test_id=1, test_suite=1,classname="idk",time=12.2,status="failed",launched=None)
+            testcase1 = test_case(id=1, test_id=1, test_suite=1,classname="idk",time=12.2,status="failed",launched=datetime.datetime.today())
             db.session.add(testcase1)
-            testcase2 = test_case(id=None, test_id=1, test_suite=1,classname="idk",time=13.2,status="passed",launched=None)
+            testcase2 = test_case(id=None, test_id=1, test_suite=1,classname="idk",time=13.2,status="passed",launched=datetime.datetime.today())
             db.session.add(testcase2)
-            testcase3 = test_case(id=None, test_id=2, test_suite=1,classname="idk",time=13.2,status="passed",launched=None)
+            testcase3 = test_case(id=None, test_id=2, test_suite=1,classname="idk",time=13.2,status="passed",launched=datetime.datetime.today())
             db.session.add(testcase3)
-            testcase4 = test_case(id=None, test_id=3, test_suite=1,classname="idk",time=13.2,status="passed",launched=None)
+            testcase4 = test_case(id=None, test_id=3, test_suite=1,classname="idk",time=13.2,status="passed",launched=datetime.datetime.today())
             db.session.add(testcase4)
-            testcase5 = test_case(id=None, test_id=4, test_suite=1,classname="idk",time=13.2,status="passed",launched=None)
+            testcase5 = test_case(id=None, test_id=4, test_suite=1,classname="idk",time=13.2,status="passed",launched=datetime.datetime.today())
             db.session.add(testcase5)
             db.session.commit()
             #issues
