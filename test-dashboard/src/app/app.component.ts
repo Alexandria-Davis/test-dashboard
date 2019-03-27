@@ -6,7 +6,7 @@ import { FailuresComponent } from './failures/index';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  directives: [ FailuresComponent]
+  directives: [ FailuresComponent ]
 })
 export class AppComponent {
   title = 'Test-Dashboard';
