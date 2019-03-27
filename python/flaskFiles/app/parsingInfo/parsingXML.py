@@ -3,6 +3,7 @@ from xml.dom import minidom
 import pprint
 import xml.etree.ElementTree as etree
 import xml.etree.ElementTree as ElementTree
+from database_actions import add_from_file
 
 def parsexmlFile(testFileName):
     myDoc = minidom.parse(testFileName)

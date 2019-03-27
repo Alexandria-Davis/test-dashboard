@@ -1,18 +1,22 @@
 <html>
   <head>
     {% if title %}
-    <title>{{ title }} - Microblog </title>
+    <title>{{ title }} - Dashboard </title>
     {% else %}
-    <title> Welcome to Microblog </title>
+    <title> Welcome to Dashboard </title>
     {% endif %}
   </head>
   <body>
     {% extends "base.html" %}
     {% block content %}
-      <h1>{{ title }}! - Dashboard</h1>
-      {% for tests in TestInfomation%}
-      <div><p>{{tests.testName.testName }} says: <b>{{ testName.body }}</b></p></div>
-      {% endfor%}
+
+      {{TestInformation.SuiteInfo}}
+      <p>---------------</p>
+      {%for testInfo in TestInformation.Info%}
+        <p>{{testInfo}}</p>
+      {%endfor%}
+
+
     {% endblock %}
   </body>
-</html> -->
+</html>

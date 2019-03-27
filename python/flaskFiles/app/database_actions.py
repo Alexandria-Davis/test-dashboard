@@ -1,9 +1,6 @@
 from app.models import *
 from app import db
 from pprint import pprint
-from xml.dom import minidom
-import xml.etree.ElementTree as etree
-import xml.etree.ElementTree as ElementTree
 
 class database_actions:
     def __init__():
