@@ -4,16 +4,9 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
-
-import { APP_ROUTES_PROVIDED } from "./app/app.routes";
-
-
 if (environment.production) {
   enableProdMode();
 }
 
 platformBrowserDynamic().bootstrapModule(AppModule)
   .catch(err => console.error(err));
-
-
-platformBrowserDynamic(AppComponent, [APP_ROUTES_PROVIDED]);
