@@ -19,10 +19,6 @@ const routes: Routes = [
     component: ProjectPageComponent
   },
   {
-    path:'',
-    component: ProjectPageComponent
-  },
-  {
     path:'test', //area reserved for testing our stuff
     component: TestableComponent
   },
