@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+/*import { FailuresComponent } from './failures/index';*/
 
 @Component({
   selector: 'project-overview',
   templateUrl: './overview.component.html',
-  styleUrls: ['./overview.component.scss']
+  styleUrls: ['./overview.component.scss'],
+  /*directives: [FailuresComponent]*/
 })
 export class OverviewComponent implements OnInit {
   passed;

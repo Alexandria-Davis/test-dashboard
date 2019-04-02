@@ -8,7 +8,8 @@ import { ProjectPageComponent } from './project-page/project-page.component';
 import { TestListComponent } from './test-list/test-list.component';
 import { OverviewComponent } from './overview/overview.component';
 import { TestableComponent } from './testable/testable.component';
-import { PersonComponent } from './person/person.component';
+import { FailuresComponent } from './failures/failures.component';
+
 
 @NgModule({
   declarations: [
@@ -17,7 +18,7 @@ import { PersonComponent } from './person/person.component';
     TestListComponent,
     OverviewComponent,
     TestableComponent,
-    PersonComponent
+    FailuresComponent
   ],
   imports: [
     BrowserModule,
