@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
+
+
 @Component({
   selector: 'app-failures',
   templateUrl: './failures.component.html',
@@ -9,12 +11,15 @@ export class FailuresComponent implements OnInit {
   @Input() fail;
   @Output() onyell = new EventEmitter();
 
+  testFail;
+
   fireYellEvent(x){
     this.onyell.emit(x)
   }
   constructor() { }
 
   ngOnInit() {
+    this.testFail = 'Test Results';
   }
 
 }
