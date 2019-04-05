@@ -112,16 +112,6 @@ class database_actions:
                 db.session.flush()
             name_id = name.id
 
-            # if (len(name) == 0):
-            #     newname = test_names(test_name=entry['testName'],project=proj_id)
-            #     db.session.add(newname)
-            #     db.session.flush()
-            #     db.session.commit()
-            #     name_id = newname.id
-            # else:
-            #     name_id = name[0].id
-
-            #set up test testCase
             status="passed"
             if entry["error"]:
                 status="error"
