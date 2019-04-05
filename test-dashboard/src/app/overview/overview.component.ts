@@ -14,6 +14,7 @@ export class OverviewComponent implements OnInit {
   total;
   new_fail;
   no_run;
+  title;
 
   constructor() { }
 
@@ -25,6 +26,7 @@ export class OverviewComponent implements OnInit {
     this.total = this.passed + this.failed + this.no_run;
     this.new_fail = 4;
     this.durration = "34H 23M 11S";
+    this.title = "Test Dashboard";
     /*End Temp Data*/
   }
 

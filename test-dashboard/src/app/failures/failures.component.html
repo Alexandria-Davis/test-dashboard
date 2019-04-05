@@ -1,6 +1,28 @@
-<p>{{fail.test1}}</p>
- <!--<button (click)="fireYellEvent($event)">Click Here</button>-->
+<!DOCTYPE html>
+<html>
+
+<!-- <p>{{fail.test1}}</p> -->
+<!--<button (click)="fireYellEvent($event)">Click Here</button>-->
 <h1>
-  {{testFail}}
+  Test Results
 </h1>
-<p> this should display on the failure page</p>
+<table id="table" style ="width:100%">
+  <tr id = "header">
+    <th>TestName</th>
+    <th>Result</th>
+    <th>Duration</th>
+    <th>Recurring</th>
+  </tr>
+  <tr>
+    <td>Name</td>
+    <td>Passed or Failed</td>
+    <td>Time</td>
+    <td>######</td>
+  </tr>
+
+
+</table>
+
+
+
+</html>
