@@ -1,7 +1,7 @@
 from app.models import *
 from app import db
 from pprint import pprint
-import datetime
+from datetime import datetime
 class database_actions:
     def __init__():
         return
@@ -61,9 +61,78 @@ class database_actions:
             "results":results
         }
 
-    def add_from_file(dictionaried):
+    def add_from_file(dictionaried, project="Unknown"):
         print("Parsing file\n\n")
-        pprint(dictionaried)
+        #Add project if not exists
+        proj_query = db.session.query(projects).filter_by(project_name = project)
+        #proj_query.add_columns('id','project_name')
+        proj_result = proj_query.all()
+        print()
+        print()
+        print(proj_result)
+        print()
+        print()
+        if (len(proj_result) == 0):
+            target_proj = projects(id=None,project_name=project)
+            db.session.add(target_proj)
+            db.session.flush()
+            db.session.commit()
+        else :
+            print(proj_result[0])
+            target_proj = proj_result[0]
+        proj_id = target_proj.id
+        #add test_suite
+        ts_query = db.session.query(test_suite)
+        ts_query.filter_by(project=proj_id)
+        ts_query.filter_by(testsuite=dictionaried['SuiteInfo'][0]['suiteName'])
+        ts_results = ts_query.all()
+        if (len(ts_results) == 0):
+            new_ts = test_suite(testsuite=dictionaried['SuiteInfo'][0]['suiteName'])
+            db.session.add(new_ts)
+            db.session.flush()
+            db.session.commit()
+            test_suite_id = new_ts.id
+        else:
+            test_suite_id = ts_results[0].id
+
+
+        #Add test run
+        new_testrun = testRun(id=None,name="",project=proj_id,date=dictionaried['SuiteInfo'][0]['date'])
+        db.session.add(new_testrun)
+
+        for entry in dictionaried['Info']:
+            #Get project name ID
+            names = db.session.query(test_names)
+            names.filter(test_names.project == proj_id)
+            names.filter(test_names.test_name == entry['testName'])
+            name = names.all()
+
+            if (len(name) == 0):
+                newname = test_names(test_name=entry['testName'],project=proj_id)
+                db.session.add(newname)
+                db.session.flush()
+                db.session.commit()
+                name_id = newname.id
+            else:
+                name_id = name[0].id
+
+            #set up test testCase
+            status="passed"
+            if entry["error"]:
+                status="error"
+            if entry["failure"]:
+                status="failure"
+            if entry["ignored"]:
+                status == "ignored"
+
+            new_test_case = test_case(test_id=name_id,test_suite=test_suite_id, classname=entry["className"],time=entry["time"],status=status,launched=dictionaried["SuiteInfo"][0]["date"])
+            db.session.add(new_test_case)
+            db.session.flush()
+            if (status != "passed"):
+                message=entry[status+"Message"]
+                new_issue = issues(test=new_test_case.id,output=message,status=status)
+                db.session.add(new_issue)
+            db.session.commit()
         print("\n\nFile Parsed")
         return 0
 
