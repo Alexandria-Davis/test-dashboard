@@ -2,6 +2,9 @@ from app.models import *
 from app import db
 from pprint import pprint
 from datetime import datetime
+from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy.orm.exc import MultipleResultsFound
+
 class database_actions:
     def __init__():
         return
@@ -64,57 +67,59 @@ class database_actions:
     def add_from_file(dictionaried, project="Unknown"):
         print("Parsing file\n\n")
         #Add project if not exists
-        proj_query = db.session.query(projects).filter_by(project_name = project)
-        #proj_query.add_columns('id','project_name')
-        proj_result = proj_query.all()
-        print()
-        print()
-        print(proj_result)
-        print()
-        print()
-        if (len(proj_result) == 0):
-            target_proj = projects(id=None,project_name=project)
-            db.session.add(target_proj)
+        try:
+            proj_query = db.session.query(projects).filter_by(project_name = project)
+            proj_result = proj_query.one()
+        except MultipleResultsFound as e:
+            print("WARNING: Multiple projects found with the same name. Using the first")
+            proj_result = proj_query.first()
+        except NoResultFound as e:
+            print("Project not found. Creating it")
+            proj_result = projects(project_name=project)
+            db.session.add(proj_result)
             db.session.flush()
-            db.session.commit()
-        else :
-            print(proj_result[0])
-            target_proj = proj_result[0]
-        proj_id = target_proj.id
-        #add test_suite
-        ts_query = db.session.query(test_suite)
-        ts_query.filter_by(project=proj_id)
-        ts_query.filter_by(testsuite=dictionaried['SuiteInfo'][0]['suiteName'])
-        ts_results = ts_query.all()
-        if (len(ts_results) == 0):
-            new_ts = test_suite(testsuite=dictionaried['SuiteInfo'][0]['suiteName'])
-            db.session.add(new_ts)
+        proj_id = proj_result.id
+        #add test_suite if not exists
+        try:
+            ts_query = db.session.query(test_suite)
+            ts_query.filter_by(project=proj_id)
+            ts_query.filter_by(testsuite=dictionaried['SuiteInfo'][0]['suiteName'])
+            ts_result = ts_query.one()
+        except MultipleResultsFound as e:
+            print("WARNING: Multiple test suites found with the same suite name and project. Using the first")
+            ts_result = ts_query.first()
+        except NoResultFound as e:
+            ts_result = test_suite(testsuite=dictionaried['SuiteInfo'][0]['suiteName'])
+            db.session.add(ts_result)
             db.session.flush()
-            db.session.commit()
-            test_suite_id = new_ts.id
-        else:
-            test_suite_id = ts_results[0].id
-
-
+        test_suite_id = ts_result.id
         #Add test run
         new_testrun = testRun(id=None,name="",project=proj_id,date=dictionaried['SuiteInfo'][0]['date'])
         db.session.add(new_testrun)
-
         for entry in dictionaried['Info']:
             #Get project name ID
-            names = db.session.query(test_names)
-            names.filter(test_names.project == proj_id)
-            names.filter(test_names.test_name == entry['testName'])
-            name = names.all()
-
-            if (len(name) == 0):
-                newname = test_names(test_name=entry['testName'],project=proj_id)
-                db.session.add(newname)
+            try:
+                names = db.session.query(test_names)
+                names.filter(test_names.project == proj_id)
+                names.filter(test_names.test_name == entry['testName'])
+                name = names.one()
+            except MultipleResultsFound as e:
+                print ("Error: Dublicate test names found for a project. Using the first")
+                name = names.first();
+            except NoResultFound as e:
+                print("Test name not found, generating new one")
+                name = test_names(test_name=entry['testName'],project=proj_id)
                 db.session.flush()
-                db.session.commit()
-                name_id = newname.id
-            else:
-                name_id = name[0].id
+            name_id = name.id
+
+            # if (len(name) == 0):
+            #     newname = test_names(test_name=entry['testName'],project=proj_id)
+            #     db.session.add(newname)
+            #     db.session.flush()
+            #     db.session.commit()
+            #     name_id = newname.id
+            # else:
+            #     name_id = name[0].id
 
             #set up test testCase
             status="passed"
