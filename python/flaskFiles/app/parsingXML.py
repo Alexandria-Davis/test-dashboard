@@ -24,8 +24,8 @@ def parsexmlFile(testFileName):
     testInfo = []
 
     for property in properties:
-        name = property.attributes['name'].value
-        if(name == "sun.java.command"):
+        pName = property.attributes['name'].value
+        if(pName == "sun.java.command"):
             value = property.attributes['value'].value
             split = value.split()
             date = split[2][0:10]
