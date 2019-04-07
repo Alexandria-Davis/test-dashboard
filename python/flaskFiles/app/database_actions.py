@@ -28,7 +28,9 @@ class database_actions:
             test_names.project,
             test_names.test_name,
             func.count(1),
-            test_case.status
+            func.max(test_case.launched),
+            test_case.status,
+
         ).outerjoin(
             test_case
         ).filter(
@@ -46,7 +48,8 @@ class database_actions:
             "Project_id":item[0],
             "test_name":item[1],
             "Run_count":item[2],
-            "status":item[3]
+            "status":item[4],
+            "Last run":item[3]
             })
         return {'results':newlist}
 
