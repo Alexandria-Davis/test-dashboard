@@ -4,6 +4,7 @@ from pprint import pprint
 from datetime import datetime
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.orm.exc import MultipleResultsFound
+from sqlalchemy import func
 
 class database_actions:
     def __init__():
@@ -18,8 +19,36 @@ class database_actions:
             json.update(database_actions.get_tests_for_project(params["Project_id"]))
         if (action == "query_projects"):
             json.update(database_actions.get_projects())
+        if (action== "test_overview"):
+            json.update(database_actions.get_test_overview(params["Project_id"]))
         return json
 
+    def get_test_overview(proj_id):
+        q = db.session.query(
+            test_names.project,
+            test_names.test_name,
+            func.count(1),
+            test_case.status
+        ).outerjoin(
+            test_case
+        ).filter(
+            test_names.project == proj_id
+        ).group_by(
+            test_names.test_name,
+            test_case.status
+        )
+        results = q.all()
+        pprint(results)
+        to_return = {};
+        newlist = []
+        for item in results:
+            newlist.append({
+            "Project_id":item[0],
+            "test_name":item[1],
+            "Run_count":item[2],
+            "status":item[3]
+            })
+        return {'results':newlist}
 
     def get_tests_for_project(proj_id):
         q = db.session.query(test_names, test_case).outerjoin(test_case).filter(
@@ -81,9 +110,7 @@ class database_actions:
         proj_id = proj_result.id
         #add test_suite if not exists
         try:
-            ts_query = db.session.query(test_suite)
-            ts_query.filter_by(project=proj_id)
-            ts_query.filter_by(testsuite=dictionaried['SuiteInfo'][0]['suiteName'])
+            ts_query = db.session.query(test_suite).filter_by(project=proj_id).filter_by(testsuite=dictionaried['SuiteInfo'][0]['suiteName'])
             ts_result = ts_query.one()
         except MultipleResultsFound as e:
             print("WARNING: Multiple test suites found with the same suite name and project. Using the first")
@@ -99,9 +126,9 @@ class database_actions:
         for entry in dictionaried['Info']:
             #Get project name ID
             try:
-                names = db.session.query(test_names)
-                names.filter(test_names.project == proj_id)
-                names.filter(test_names.test_name == entry['testName'])
+                names = db.session.query(test_names).filter(test_names.project == proj_id).filter(test_names.test_name == entry['testName'])
+                print(entry['testName'])
+                print(names)
                 name = names.one()
             except MultipleResultsFound as e:
                 print ("Error: Dublicate test names found for a project. Using the first")
@@ -109,6 +136,7 @@ class database_actions:
             except NoResultFound as e:
                 print("Test name not found, generating new one")
                 name = test_names(test_name=entry['testName'],project=proj_id)
+                db.session.add(name)
                 db.session.flush()
             name_id = name.id
 
