@@ -5,6 +5,7 @@ from datetime import datetime
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.orm.exc import MultipleResultsFound
 from sqlalchemy import func
+from datetime import datetime, timedelta
 
 class database_actions:
     def __init__():
@@ -34,12 +35,15 @@ class database_actions:
         ).outerjoin(
             test_case
         ).filter(
-            test_names.project == proj_id
+            test_names.project == proj_id,
+            #Change days to 30 later
+            test_case.launched >= datetime.today() - timedelta(days=300)
         ).group_by(
             test_names.test_name,
             test_case.status
         )
         results = q.all()
+        print(q)
         pprint(results)
         to_return = {};
         newlist = []
