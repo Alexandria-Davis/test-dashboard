@@ -19,8 +19,10 @@ class database_actions:
             json.update(database_actions.get_tests_for_project(params["Project_id"]))
         if (action == "query_projects"):
             json.update(database_actions.get_projects())
-        if (action== "test_overview"):
+        if (action == "test_overview"):
             json.update(database_actions.get_test_overview(params["Project_id"]))
+            json.update({"Overview":{"Passed":"1","Failed":"2","Skipped":"3"}})
+
         return json
 
     def get_test_overview(proj_id):
@@ -57,11 +59,21 @@ class database_actions:
         return {'results':newlist}
 
     def get_tests_for_project(proj_id):
-        q = db.session.query(test_names, test_case).outerjoin(test_case).filter(
+        q = db.session.query(
+            test_names,
+            test_case
+        ).outerjoin(
+            test_case
+            ).filter(
         test_names.project == proj_id,
         #test_case.test_id == test_names.id
-        )
-        q.add_columns('test_names.test_name', 'test_case.time', 'test_case.launched' 'test_case.test_id', 'test_case.id', 'test_case.status')
+        ).add_columns(
+            'test_names.test_name',
+            'test_case.time',
+            'test_case.launched',
+            'test_case.test_id',
+            'test_case.id',
+            'test_case.status')
 
         v = q.all()
         results = [];
