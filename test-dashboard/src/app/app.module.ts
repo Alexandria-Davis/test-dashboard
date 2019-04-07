@@ -9,6 +9,7 @@ import { TestListComponent } from './test-list/test-list.component';
 import { OverviewComponent } from './overview/overview.component';
 import { TestableComponent } from './testable/testable.component';
 import { FailuresComponent } from './failures/failures.component';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { FailuresComponent } from './failures/failures.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

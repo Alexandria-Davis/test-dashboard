@@ -1,7 +1,11 @@
 from app.models import *
 from app import db
 from pprint import pprint
-import datetime
+from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy.orm.exc import MultipleResultsFound
+from sqlalchemy import func
+from datetime import datetime, timedelta
+
 class database_actions:
     def __init__():
         return
@@ -15,8 +19,42 @@ class database_actions:
             json.update(database_actions.get_tests_for_project(params["Project_id"]))
         if (action == "query_projects"):
             json.update(database_actions.get_projects())
+        if (action== "test_overview"):
+            json.update(database_actions.get_test_overview(params["Project_id"]))
         return json
 
+    def get_test_overview(proj_id):
+        q = db.session.query(
+            test_names.project,
+            test_names.test_name,
+            func.count(1),
+            func.max(test_case.launched),
+            test_case.status,
+
+        ).outerjoin(
+            test_case
+        ).filter(
+            test_names.project == proj_id,
+            #Change days to 30 later
+            test_case.launched >= datetime.today() - timedelta(days=300)
+        ).group_by(
+            test_names.test_name,
+            test_case.status
+        )
+        results = q.all()
+        print(q)
+        pprint(results)
+        to_return = {};
+        newlist = []
+        for item in results:
+            newlist.append({
+            "Project_id":item[0],
+            "test_name":item[1],
+            "Run_count":item[2],
+            "status":item[4],
+            "Last run":item[3]
+            })
+        return {'results':newlist}
 
     def get_tests_for_project(proj_id):
         q = db.session.query(test_names, test_case).outerjoin(test_case).filter(
@@ -61,9 +99,69 @@ class database_actions:
             "results":results
         }
 
-    def add_from_file(dictionaried):
+    def add_from_file(dictionaried, project="Unknown"):
         print("Parsing file\n\n")
-        pprint(dictionaried)
+        #Add project if not exists
+        try:
+            proj_query = db.session.query(projects).filter_by(project_name = project)
+            proj_result = proj_query.one()
+        except MultipleResultsFound as e:
+            print("WARNING: Multiple projects found with the same name. Using the first")
+            proj_result = proj_query.first()
+        except NoResultFound as e:
+            print("Project not found. Creating it")
+            proj_result = projects(project_name=project)
+            db.session.add(proj_result)
+            db.session.flush()
+        proj_id = proj_result.id
+        #add test_suite if not exists
+        try:
+            ts_query = db.session.query(test_suite).filter_by(project=proj_id).filter_by(testsuite=dictionaried['SuiteInfo'][0]['suiteName'])
+            ts_result = ts_query.one()
+        except MultipleResultsFound as e:
+            print("WARNING: Multiple test suites found with the same suite name and project. Using the first")
+            ts_result = ts_query.first()
+        except NoResultFound as e:
+            ts_result = test_suite(testsuite=dictionaried['SuiteInfo'][0]['suiteName'])
+            db.session.add(ts_result)
+            db.session.flush()
+        test_suite_id = ts_result.id
+        #Add test run
+        new_testrun = testRun(id=None,name="",project=proj_id,date=dictionaried['SuiteInfo'][0]['date'])
+        db.session.add(new_testrun)
+        for entry in dictionaried['Info']:
+            #Get project name ID
+            try:
+                names = db.session.query(test_names).filter(test_names.project == proj_id).filter(test_names.test_name == entry['testName'])
+                print(entry['testName'])
+                print(names)
+                name = names.one()
+            except MultipleResultsFound as e:
+                print ("Error: Dublicate test names found for a project. Using the first")
+                name = names.first();
+            except NoResultFound as e:
+                print("Test name not found, generating new one")
+                name = test_names(test_name=entry['testName'],project=proj_id)
+                db.session.add(name)
+                db.session.flush()
+            name_id = name.id
+
+            status="passed"
+            if entry["error"]:
+                status="error"
+            if entry["failure"]:
+                status="failure"
+            if entry["ignored"]:
+                status == "ignored"
+
+            new_test_case = test_case(test_id=name_id,test_suite=test_suite_id, classname=entry["className"],time=entry["time"],status=status,launched=dictionaried["SuiteInfo"][0]["date"])
+            db.session.add(new_test_case)
+            db.session.flush()
+            if (status != "passed"):
+                message=entry[status+"Message"]
+                new_issue = issues(test=new_test_case.id,output=message,status=status)
+                db.session.add(new_issue)
+            db.session.commit()
         print("\n\nFile Parsed")
         return 0
 
@@ -106,15 +204,15 @@ class database_actions:
             db.session.add(test4)
             db.session.commit()
             #test_case
-            testcase1 = test_case(id=1, test_id=1, test_suite=1,classname="idk",time=12.2,status="failed",launched=datetime.datetime.today())
+            testcase1 = test_case(id=1, test_id=1, test_suite=1,classname="idk",time=12.2,status="failed",launched=datetime.today())
             db.session.add(testcase1)
-            testcase2 = test_case(id=None, test_id=1, test_suite=1,classname="idk",time=13.2,status="passed",launched=datetime.datetime.today())
+            testcase2 = test_case(id=None, test_id=1, test_suite=1,classname="idk",time=13.2,status="passed",launched=datetime.today())
             db.session.add(testcase2)
-            testcase3 = test_case(id=None, test_id=2, test_suite=1,classname="idk",time=13.2,status="passed",launched=datetime.datetime.today())
+            testcase3 = test_case(id=None, test_id=2, test_suite=1,classname="idk",time=13.2,status="passed",launched=datetime.today())
             db.session.add(testcase3)
-            testcase4 = test_case(id=None, test_id=3, test_suite=1,classname="idk",time=13.2,status="passed",launched=datetime.datetime.today())
+            testcase4 = test_case(id=None, test_id=3, test_suite=1,classname="idk",time=13.2,status="passed",launched=datetime.today())
             db.session.add(testcase4)
-            testcase5 = test_case(id=None, test_id=4, test_suite=1,classname="idk",time=13.2,status="passed",launched=datetime.datetime.today())
+            testcase5 = test_case(id=None, test_id=4, test_suite=1,classname="idk",time=13.2,status="passed",launched=datetime.today())
             db.session.add(testcase5)
             db.session.commit()
             #issues
