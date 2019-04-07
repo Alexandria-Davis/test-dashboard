@@ -1,0 +1,14 @@
+h1{
+  visibility: visible;
+  font-family: monospace;
+  color: blue;
+}
+table{
+  font-family: monospace;
+}
+#header{
+  font-size: 20px;
+}
+tr:nth-child(even) {
+  background-color: #dddddd;
+}

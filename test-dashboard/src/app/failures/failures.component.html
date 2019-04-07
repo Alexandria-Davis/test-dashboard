@@ -1,2 +1,63 @@
-<p>{{fail.test1}}</p>
- <button (click)="fireYellEvent($event)">Click Here</button>
+<!DOCTYPE html>
+<html>
+
+<!-- <p>{{fail.test1}}</p> -->
+<!--<button (click)="fireYellEvent($event)">Click Here</button>-->
+<h1>
+  Test Results
+</h1>
+
+<head>
+  <script>
+    function loadMe() {
+      var tab = document.getElementById("fly");
+      alert(tab);
+      var row = tab.insertRow();
+      var cell1 = row.insertCell();
+      var cell2 = row.insertCell();
+      var cell1 = row.insertCell();
+      var cell2 = row.insertCell();
+      cell1.innerHTML = "this is a newline";
+      cell2.innerHTML = "this is a newline too";
+  }
+
+  </script>
+</head>
+
+<body>
+
+  <!-- <input id="clickMe" type="button" value="clickme" onclick="loadMe()" /> -->
+
+  <table id="fly" style ="width:100%">
+    <tr id = "header">
+      <th>TestName</th>
+      <th>Result</th>
+      <th>Duration</th>
+      <th>Recurring</th>
+    </tr>
+  <tr *ngFor="let out of results">
+    <td>{{ out.testName }}</td>
+    <td>{{ out.result }}</td>
+    <td>{{ out.time }}</td>
+    <td>{{ out.failures }}</td>
+  </tr>
+
+</table>
+
+
+<!-- <script language="text/JavaScript">
+  function loadMe() {
+    var tab = document.getElementById("table");
+    var row = table.insertRow(0);
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    var cell1 = row.insertCell(2);
+    var cell2 = row.insertCell(3);
+    cell1.innerHTML = "this is a newline";
+    cell2.innerHTML = "this is a newline too";
+}
+
+</script> -->
+
+</body>
+</html>
