@@ -16,4 +16,4 @@ platformBrowserDynamic().bootstrapModule(AppModule)
   .catch(err => console.error(err));
 
 
-platformBrowserDynamic(AppComponent, [APP_ROUTES_PROVIDED]);
+//platformBrowserDynamic(AppComponent, [APP_ROUTES_PROVIDED]);
