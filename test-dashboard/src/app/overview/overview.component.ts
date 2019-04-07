@@ -15,6 +15,7 @@ export class OverviewComponent implements OnInit {
   total;
   new_fail;
   no_run;
+  title;
 
   constructor(private testService: TestsService) { }
 
@@ -33,6 +34,7 @@ export class OverviewComponent implements OnInit {
     this.total = this.passed + this.failed + this.no_run;
     this.new_fail = 4;
     this.durration = this.testService.getRuntime();
+    this.title = "Test Dashboard";
   }
 
 
