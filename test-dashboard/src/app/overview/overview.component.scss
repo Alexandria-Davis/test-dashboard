@@ -16,7 +16,7 @@ h1{
   font-family: monospace;
   border-radius: 10px;
   display: inline-grid;
-  float: left;
+  float: right;
   width: 33.33%;
 }
 p {
@@ -40,7 +40,7 @@ body{
   font-family: monospace;
   text-align: center;
   padding: 10px;
-  background-color: beige;
+  background-color: lightgray;
   border-radius: 10px;
   margin: 10px;
 }
@@ -56,4 +56,20 @@ body{
 }
 .viewmore{
   visibility: hidden;
+}
+.testlist{
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+  width: 50.00%;
+
+}
+.badge{
+  text-align: left;
+  font-family: Cambria, serif;
+}
+
+.details{
+  text-align: right;
+  font-family: Cambria, serif;
 }
