@@ -18,13 +18,23 @@ export class OverviewComponent implements OnInit {
   new_fail;
   no_run;
   title;
-  tests : test[];
+  tests : Object[];
+  //goodTests : Object
 
   constructor(private testService: TestsService) { }
 
   ngOnInit() {
     this.getTestManifest();
-    console.log(this.tests)
+    console.log("After subscribe call  " , this.tests)
+    // let evilResponseProps = Object.keys(test);
+    // // Step 2. Create an empty array.
+    // let goodTests = [];
+    // // Step 3. Iterate throw all keys.
+    // for (prop of evilResponseProps) {
+    //   goodTests.push(evilResponseProps[prop]);
+    // }
+    // return goodTests;
+    // console.log(this.tests)
     //this.tests = this.testService.getTestManifest(1);
     // /*Start Temp Data*/
     // this.passed = 3;
@@ -36,9 +46,14 @@ export class OverviewComponent implements OnInit {
     // /*End Temp Data*/
 
   }
+  deal_with_stuff(results:Object): void{
+    this.tests = results.results;
+    console.log(results);
+    console.log("tests is set", this.tests)
+  }
   getTestManifest(): void{
     this.testService.getTestManifest(1)
-        .subscribe(tests => this.tests = tests);
+        .subscribe(tests => this.deal_with_stuff(tests));
   }
-  
+
 }
