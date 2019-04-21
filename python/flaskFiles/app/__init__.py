@@ -12,8 +12,8 @@ app.config.from_object(Config)
 #setup database
 db = SQLAlchemy(app)
 
-engine = db.create_engine(f'mysql://{Config.MYSQL_DATABASE_USER}:{Config.MYSQL_DATABASE_PASSWORD}@{Config.MYSQL_DATABASE_HOST}:{Config.MYSQL_DATABASE_PORT}/{Config.MYSQL_DATABASE_DB}?charset=utf8&use_unicode=0', pool_recycle=3600)
-connection = engine.connect()
+#engine = db.create_engine(f'mysql://{Config.MYSQL_DATABASE_USER}:{Config.MYSQL_DATABASE_PASSWORD}@{Config.MYSQL_DATABASE_HOST}:{Config.MYSQL_DATABASE_PORT}/{Config.MYSQL_DATABASE_DB}?charset=utf8&use_unicode=0', pool_recycle=3600)
+#connection = engine.connect()
 
 migrate = Migrate(app, db)
 
