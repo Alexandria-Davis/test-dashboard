@@ -1,6 +1,6 @@
 <h1>
   Welcome to {{ title }}!
-</h1> 
+</h1>
 <p>
   overview works!
 </p>
@@ -31,3 +31,20 @@
     <div class="viewmore">View failed tests</div>
   </div>
 </div>
+
+
+<h2>Test Lists</h2>
+<ul class="tests">
+  <li *ngFor = "let test of Tests">
+    <div class = "testlist" [ngStyle]= "{'background-color': test.status === 'passed' ? 'palegreen' : 'orangered' }">
+        <h2 class="badge">{{test.name}}</h2>
+          <ul>
+            <div class = "details">{{test.status}}!</div>
+            <div class = "details">Run Count: {{test.run_count}}</div>
+            <div class = "details">Last Run: {{test.last_run}}</div>
+            <div class = "details">Project: {{test.project_id}}</div>
+          </ul>
+    </div>
+
+  </li>
+</ul>

@@ -24,8 +24,8 @@ def parsexmlFile(testFileName):
     testInfo = []
 
     for property in properties:
-        name = property.attributes['name'].value
-        if(name == "sun.java.command"):
+        pName = property.attributes['name'].value
+        if(pName == "sun.java.command"):
             value = property.attributes['value'].value
             split = value.split()
             date = split[2][0:10]
@@ -55,6 +55,7 @@ def parsexmlFile(testFileName):
         elif(time == '0'):
             skippedBool = True
             skippedMessage = skipped[0].attributes['message'].value
+            
         indivTestInfo.append({'time':time,'error': errorBool,'errorMessage': errorMessage,'failure': failureBool,'failureMessage': failureMessage,'ignored': skippedBool,'ignoredMessage': skippedMessage,'testName':elem.attributes['name'].value,'className':className})
     suiteInfo.append({'suiteName':name,'totalTime':totalDuration,'totalTest':totalTests,'numErrors':numErrors,'failedTest':failedTest,'numSkipped':numSkipped, 'date':date})
 
