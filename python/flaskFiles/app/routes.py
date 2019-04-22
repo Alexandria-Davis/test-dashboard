@@ -27,4 +27,8 @@ def api():
     if (allowed): ## TODO: authenticate users before allowing them to do stuff
         action = request.args['action']
         json = database_actions.dostuff(action, request.args)
-        return jsonify(json)
+        resp = jsonify(json)
+        resp.headers.add("Access-Control-Allow-Origin", "*")
+        resp.headers.add("Access-Control-Allow-Headers", "*")
+        resp.headers.add("Access-Control-Allow-Methods", "*")
+        return resp;

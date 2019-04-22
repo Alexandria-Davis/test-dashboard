@@ -12,8 +12,6 @@ app.config.from_object(Config)
 #setup database
 db = SQLAlchemy(app)
 
-engine = db.create_engine('mysql://test-user:test-password@localhost/test-dashboard?charset=utf8&use_unicode=0', pool_recycle=3600)
-connection = engine.connect()
 
 migrate = Migrate(app, db)
 
