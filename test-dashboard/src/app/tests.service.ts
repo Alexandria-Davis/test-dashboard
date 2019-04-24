@@ -7,6 +7,8 @@ import {Observable, of } from 'rxjs'
 })
 export class TestsService {
 
+  //baseUrl:string = "http://127.0.0.1/5000/"
+
   constructor(private http: HttpClient) { }
 
   getTestManifest(projName): Observable<testlist> {
@@ -27,13 +29,19 @@ export class TestsService {
     // console.log(test_arr);
     // return of(test_arr);
   }
-
+//http://127.0.0.1:5000/api?action=test_overview&Project_id=1
   getTest(testId): any {
-    return this.http.get('https://0.0.0.0/testId')
+    //return this.http.get('https://0.0.0.0/testId')
+    return this.http.get('http://127.0.0.1:5000/index')
   }
 
   getOverallSuccess(){
-    return this.http.get<any>('https://0.0.0.0/success')
+  //
+   //return this.http.get<any>('http://127.0.0.1:5000/api?action=test_overview&Project_id=1')
+   //console.log(this.http.get('https://127.0.0.1:5000/api?action=test_overview&Project_id=1').data);
+
+   return this.http.get('https://127.0.0.1:5000/api?action=test_overview&Project_id=1')
+
 
   }
   getOverallFailure(){
