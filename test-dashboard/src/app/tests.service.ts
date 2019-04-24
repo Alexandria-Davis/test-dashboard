@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { test } from './test';
+import { test, testlist } from './test';
 import {Observable, of } from 'rxjs'
 @Injectable({
   providedIn: 'root'
@@ -9,10 +9,10 @@ export class TestsService {
 
   constructor(private http: HttpClient) { }
 
-  getTestManifest(projName): Observable<test[]> {
-    return this.http.get('http://127.0.0.1:5000/api?action=query_tests&Project_id=1', {responseType: 'json'});
+  getTestManifest(projName): Observable<testlist> {
+    var response =  this.http.get<testlist>('http://127.0.0.1:5000/api?action=query_tests&Project_id=1');
     console.log(response);
-    return of(response);
+    return response;
     // let response = JSON.parse('{ "results": [ { "Last run": "Thu, 07 Mar 2019 00:00:00 GMT", "Project_id": 1, "Run_count": 20, "status": "passed", "test_name": "sample_passing_test" }, { "Last run": "Thu, 07 Mar 2019 00:00:00 GMT", "Project_id": 1, "Run_count": 20, "status": "failure", "test_name": "sample_failing_test" },{ "Last run": "Thu, 07 Mar 2019 00:00:00 GMT", "Project_id": 1, "Run_count": 20, "status": "passed", "test_name": "smoke_test_ums" }, { "Last run": "Thu, 07 Mar 2019 00:00:00 GMT", "Project_id": 1, "Run_count": 20, "status": "passed", "test_name": "sample_disabled_test" } ]}');
     // let test_arr = Array<test>();
     // for (let tests of response['results']){
