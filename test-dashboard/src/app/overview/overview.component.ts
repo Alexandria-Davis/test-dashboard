@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 /*import { FailuresComponent } from './failures/index';*/
 import {TestsService} from '../tests.service';
 import { Observable, of } from 'rxjs';
-import {test } from '../test';
+import {test, testlist } from '../test';
 
 @Component({
   selector: 'project-overview',
@@ -18,7 +18,7 @@ export class OverviewComponent implements OnInit {
   new_fail;
   no_run;
   title;
-  tests : Object[];
+  tests : test[];
   //goodTests : Object
 
   constructor(private testService: TestsService) { }
@@ -46,7 +46,7 @@ export class OverviewComponent implements OnInit {
     // /*End Temp Data*/
 
   }
-  deal_with_stuff(results:Object): void{
+  deal_with_stuff(results:testlist): void{
     this.tests = results.results;
     console.log(results);
     console.log("tests is set", this.tests)

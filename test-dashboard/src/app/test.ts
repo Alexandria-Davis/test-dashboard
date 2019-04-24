@@ -5,3 +5,7 @@ export class test {
     run_count: number;
     status: string;
   }
+export interface testlist {
+  Project: number;
+  results: test[];
+}
