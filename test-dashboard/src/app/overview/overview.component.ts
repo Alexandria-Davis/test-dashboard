@@ -11,34 +11,34 @@ import {test, testlist } from '../test';
   /*directives: [FailuresComponent]*/
 })
 export class OverviewComponent implements OnInit {
-  results = [{
-    "Last run": "Thu, 07 Mar 2019 00:00:00 GMT",
-    "Project_id": 1,
-    "Run_count": 23,
-    "status": "passed",
-    "test_name": "sample_passing_test"
-  },
-  {
-    "Last run": "Thu, 07 Mar 2019 00:00:00 GMT",
-    "Project_id": 1,
-    "Run_count": 23,
-    "status": "failure",
-    "test_name": "sample_failing_test"
-  },
-  {
-    "Last run": "Thu, 07 Mar 2019 00:00:00 GMT",
-    "Project_id": 1,
-    "Run_count": 23,
-    "status": "passed",
-    "test_name": "smoke_test_ums"
-  },
-  {
-    "Last run": "Thu, 07 Mar 2019 00:00:00 GMT",
-    "Project_id": 1,
-    "Run_count": 23,
-    "status": "passed",
-    "test_name": "sample_disabled_test"
-  }]
+  // results = [{
+  //   "Last run": "Thu, 07 Mar 2019 00:00:00 GMT",
+  //   "Project_id": 1,
+  //   "Run_count": 23,
+  //   "status": "passed",
+  //   "test_name": "sample_passing_test"
+  // },
+  // {
+  //   "Last run": "Thu, 07 Mar 2019 00:00:00 GMT",
+  //   "Project_id": 1,
+  //   "Run_count": 23,
+  //   "status": "failure",
+  //   "test_name": "sample_failing_test"
+  // },
+  // {
+  //   "Last run": "Thu, 07 Mar 2019 00:00:00 GMT",
+  //   "Project_id": 1,
+  //   "Run_count": 23,
+  //   "status": "passed",
+  //   "test_name": "smoke_test_ums"
+  // },
+  // {
+  //   "Last run": "Thu, 07 Mar 2019 00:00:00 GMT",
+  //   "Project_id": 1,
+  //   "Run_count": 23,
+  //   "status": "passed",
+  //   "test_name": "sample_disabled_test"
+  // }]
 
   passed;
   failed;
@@ -55,7 +55,8 @@ export class OverviewComponent implements OnInit {
 
   ngOnInit() {
     this.getTestManifest();
-    console.log("After subscribe call  " , this.tests)
+  
+    //console.log("After subscribe call  " , this.tests)
     // let evilResponseProps = Object.keys(test);
     // // Step 2. Create an empty array.
     // let goodTests = [];
@@ -77,9 +78,10 @@ export class OverviewComponent implements OnInit {
 
   }
   deal_with_stuff(results:testlist): void{
+    console.log(results)
     this.tests = results.results;
-    console.log(results);
-    console.log("tests is set", this.tests)
+    //console.log(results,"!!!!!!!");
+    console.log("tests is set", this.tests[2]);
   }
   getTestManifest(): void{
     this.testService.getTestManifest(1)

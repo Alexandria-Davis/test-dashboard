@@ -7,13 +7,11 @@ import {Observable, of } from 'rxjs'
 })
 export class TestsService {
 
-  //baseUrl:string = "http://127.0.0.1/5000/"
-
   constructor(private http: HttpClient) { }
 
   getTestManifest(projName): Observable<testlist> {
     var response =  this.http.get<testlist>('http://127.0.0.1:5000/api?action=query_tests&Project_id=1');
-    console.log(response);
+    //console.log(response);
     return response;
     // let response = JSON.parse('{ "results": [ { "Last run": "Thu, 07 Mar 2019 00:00:00 GMT", "Project_id": 1, "Run_count": 20, "status": "passed", "test_name": "sample_passing_test" }, { "Last run": "Thu, 07 Mar 2019 00:00:00 GMT", "Project_id": 1, "Run_count": 20, "status": "failure", "test_name": "sample_failing_test" },{ "Last run": "Thu, 07 Mar 2019 00:00:00 GMT", "Project_id": 1, "Run_count": 20, "status": "passed", "test_name": "smoke_test_ums" }, { "Last run": "Thu, 07 Mar 2019 00:00:00 GMT", "Project_id": 1, "Run_count": 20, "status": "passed", "test_name": "sample_disabled_test" } ]}');
     // let test_arr = Array<test>();
@@ -36,13 +34,7 @@ export class TestsService {
   }
 
   getOverallSuccess(){
-  //
-   //return this.http.get<any>('http://127.0.0.1:5000/api?action=test_overview&Project_id=1')
-   //console.log(this.http.get('https://127.0.0.1:5000/api?action=test_overview&Project_id=1').data);
-
    return this.http.get('https://127.0.0.1:5000/api?action=test_overview&Project_id=1')
-
-
   }
   getOverallFailure(){
     return this.http.get<any>('https://0.0.0.0/failure')
