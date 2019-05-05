@@ -48,6 +48,7 @@ export class OverviewComponent implements OnInit {
   no_run;
   title;
   tests : test[];
+  project_name: string;
   //goodTests : Object
 
   constructor(private testService: TestsService) {
@@ -55,7 +56,7 @@ export class OverviewComponent implements OnInit {
 
   ngOnInit() {
     this.getTestManifest();
-  
+
     //console.log("After subscribe call  " , this.tests)
     // let evilResponseProps = Object.keys(test);
     // // Step 2. Create an empty array.
@@ -79,6 +80,7 @@ export class OverviewComponent implements OnInit {
   }
   deal_with_stuff(results:testlist): void{
     console.log(results)
+    this.project_name = results.Project;
     this.tests = results.results;
     //console.log(results,"!!!!!!!");
     console.log("tests is set", this.tests[2]);

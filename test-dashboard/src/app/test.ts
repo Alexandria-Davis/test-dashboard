@@ -6,6 +6,6 @@ export class test {
     status: string;
   }
 export interface testlist {
-  Project: number;
+  Project: string;
   results: test[];
 }

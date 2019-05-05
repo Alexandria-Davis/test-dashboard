@@ -57,6 +57,17 @@ class database_actions:
         return {'results':newlist}
 
     def get_tests_for_project(proj_id):
+        q = db.session.query(projects).filter(projects.id == proj_id);
+        project = ""
+        try:
+            v = q.one()
+            project = v.project_name;
+        except MultipleResultsFound as e:
+            print("Error: Multiple projects have the same ID")
+        except NoResultFound as e:
+            print("Error: Project not found")
+
+
         q = db.session.query(test_names, test_case).outerjoin(test_case).filter(
         test_names.project == proj_id,
         #test_case.test_id == test_names.id
@@ -85,7 +96,7 @@ class database_actions:
                     "last_run":i.test_case.launched.strftime('%Y/%m/%d %H:%M')
                 })
 
-        return {"Project:": proj_id, "results": results}
+        return {"Project": project, "results": results}
     def get_table():
         return {"table":"gotten"}
     def get_projects():
