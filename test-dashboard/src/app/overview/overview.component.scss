@@ -64,12 +64,12 @@ body{
   width: 50.00%;
 
 }
-.badge{
+.boldme{
+  font-weight: bold;
+}
+.details{
   text-align: left;
   font-family: Cambria, serif;
-}
-
-.details{
-  text-align: right;
-  font-family: Cambria, serif;
+  color: black;
+  padding: .3em;
 }

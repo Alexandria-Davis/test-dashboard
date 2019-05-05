@@ -34,17 +34,25 @@
 
 
 <h2>Test Lists</h2>
-<ul class="tests">
-  <li *ngFor = "let test of tests">
-    <div class = "testlist" [ngStyle]= "{'background-color': test.status == 'passed' ? 'palegreen' : 'orangered' }">
-        <h2 class="badge">{{test.name}}</h2>
-          <ul>
-            <div class = "details">{{test.status}}!</div>
-            <div class = "details">Run Count: {{test.run_count}}</div>
-            <div class = "details">Last Run: {{test.last_run}}</div>
-            <div class = "details">Project: {{test.project_id}}</div>
-          </ul>
-    </div>
+<table class="tests">
+  <tr>
+    <th>Test Name</th>
+    <th>Status</th>
+    <th>Run Count</th>
+    <th>Run Time</th>
+    <th>Last Run</th>
+  </tr>
+  <tr *ngFor = "let test of tests" class = "testlist" [ngStyle]= "{'background-color': test.status == 'passed' ? 'palegreen' : 'orangered' }">
+        <td class="details boldme"><a>{{test.name}}</a></td>
+          <td>
+            <div class = "details">{{test.status}}</div>
+          </td><td>
+            <div class = "details">{{test.run_count}}</div>
+          </td><td>
+            <div class = "details">{{test.time}}</div>
+            </td><td>
+            <div class = "details">{{test.last_run}}</div>
+          </td>
 
-  </li>
-</ul>
+  </tr>
+</table>
