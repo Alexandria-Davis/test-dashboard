@@ -1,0 +1,5 @@
+<table>
+  <tr *ngFor="let proj of this.project_listings">
+    <td><a [routerLink]="['/project', proj.id]">{{proj.name}}</a></td>
+  </tr>
+</table>

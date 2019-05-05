@@ -34,8 +34,6 @@ export class OverviewComponent implements OnInit {
     console.log(results)
     this.project_name = results.Project;
     this.tests = results.results;
-    //console.log(results,"!!!!!!!");
-    console.log("tests is set", this.tests[2]);
   }
   getTestManifest(): void{
     this.route.params.subscribe(

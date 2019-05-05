@@ -107,7 +107,7 @@ class database_actions:
         for i in v:
             results.append({"id":i.id,"name":i.project_name})
         return {
-            "results":results
+        "results":results
         }
 
     def add_from_file(dictionaried, project="Unknown"):
