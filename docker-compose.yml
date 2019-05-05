@@ -1,0 +1,27 @@
+version: "3"
+services:
+  test_dashboard:
+    build: ./test-dashboard
+    restart: "no"
+    networks:
+      dbnet:
+    ports:
+      - 127.0.0.1:5001:80
+    depends_on:
+      - test_storage
+  test_storage:
+    build: ./python/
+    restart: "no"
+    networks:
+      - dbnet
+      - my_bridge
+    extra_hosts:
+      - "dbhost:127.0.0.1"
+    ports:
+      - 127.0.0.1:5000:80
+networks:
+  dbnet:
+  my_bridge:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.name: my-bridge

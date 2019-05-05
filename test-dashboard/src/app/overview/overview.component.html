@@ -35,7 +35,7 @@
 
 <h2>Test Lists</h2>
 <ul class="tests">
-  <li *ngFor = "let test of Tests">
+  <li *ngFor = "let test of tests">
     <div class = "testlist" [ngStyle]= "{'background-color': test.status === 'passed' ? 'palegreen' : 'orangered' }">
         <h2 class="badge">{{test.name}}</h2>
           <ul>
