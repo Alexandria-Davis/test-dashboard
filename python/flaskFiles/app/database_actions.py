@@ -82,7 +82,7 @@ class database_actions:
                     "test_name_id":i.test_case.test_id,
                     "test_id":i.test_case.id,
                     "status":i.test_case.status,
-                    "last_run":i.test_case.launched
+                    "last_run":i.test_case.launched.strftime('%Y/%m/%d %H:%M')
                 })
 
         return {"Project:": proj_id, "results": results}
