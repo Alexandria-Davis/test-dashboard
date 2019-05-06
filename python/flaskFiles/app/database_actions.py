@@ -42,8 +42,6 @@ class database_actions:
             test_case.status
         )
         results = q.all()
-        print(q)
-        pprint(results)
         to_return = {};
         newlist = []
         for item in results:
@@ -128,8 +126,47 @@ class database_actions:
         "new_failures":0
         }
 
+    def calculate_averages(project_id):
+
+# CREATE TEMPORARY TABLE co2
+# SELECT continent, MAX(population) AS maxpop
+#   FROM Country
+#  GROUP BY continent;
+#
+# SELECT co1.continent, co1.name, co1.population
+#   FROM Country AS co1, co2
+#  WHERE co2.continent = co1.continent
+#    AND co1.population = co2.maxpop;
+        tempqry = db.session.query(
+            func.max(test_case.launched).label('launched'),
+            test_case.test_id
+        ).join(
+            test_suite,
+            test_case.test_suite == test_suite.id
+        ).filter(
+            test_suite.project == project_id
+        ).group_by(
+            test_case.test_id
+        ).subquery()
+
+        last_run=db.session.query(
+        test_case.status,
+        func.count(test_case.status).label("Count")
+
+        ).join(
+            tempqry,
+            test_case.test_id == tempqry.c.test_id,
+        ).filter(
+            test_case.launched == tempqry.c.launched
+        ).group_by(
+            test_case.status
+        )
+
+        print("----------------- ")
+        print(last_run)
+        pprint(last_run.all())
+
     def add_from_file(dictionaried, project="Unknown"):
-        print("Parsing file\n\n")
         #Add project if not exists
         try:
             proj_query = db.session.query(projects).filter_by(project_name = project)
@@ -153,7 +190,7 @@ class database_actions:
             print("WARNING: Multiple test suites found with the same suite name and project. Using the first")
             ts_result = ts_query.first()
         except NoResultFound as e:
-            ts_result = test_suite(testsuite=dictionaried['SuiteInfo'][0]['suiteName'])
+            ts_result = test_suite(testsuite=dictionaried['SuiteInfo'][0]['suiteName'], project=proj_id)
             db.session.add(ts_result)
             db.session.flush()
         test_suite_id = ts_result.id
@@ -195,22 +232,11 @@ class database_actions:
             db.session.commit()
         print("\n\nFile Parsed")
 
-        calculate_averages(proj_id)
+        database_actions.calculate_averages(proj_id)
         return 0
-    def calculate_averages(project_id)
-        try:
-            proj_query = db.session.query(projects).filter_by(project_name = project)
-            proj_result = proj_query.one()
-            proj_id = proj_result.id
-        except MultipleResultsFound as e:
-            print("WARNING: Multiple projects found with the same name. Using the first")
-            proj_result = proj_query.first()
-        except NoResultFound as e:
-            print("Error: Project not found. Adding it")
-            proj_result = projects(id=None,project_name=project)
-            db.session.add(proj_result)
-            db.session.flush()
-            proj_id = proj_result.id
+
+
+
 
     def seed():
         try:
