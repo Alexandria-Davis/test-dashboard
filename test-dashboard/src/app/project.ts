@@ -4,4 +4,8 @@ export class Project {
 }
 export class Project_Wrap {
   results: Project[]
+  passed: number = 0;
+  failed: number = 0;
+  ignored: number = 0;
+  new_failures: number = 0;
 }

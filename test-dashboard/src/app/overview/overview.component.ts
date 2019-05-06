@@ -34,6 +34,11 @@ export class OverviewComponent implements OnInit {
     console.log(results)
     this.project_name = results.Project;
     this.tests = results.results;
+    this.passed = results.passed;
+    this.failed = results.failed;
+    this.total = results.passed + results.failed;
+    this.no_run = results.ignored;
+    this.new_fail = results.new_failures;
   }
   getTestManifest(): void{
     this.route.params.subscribe(

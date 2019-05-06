@@ -96,7 +96,14 @@ class database_actions:
                     "last_run":i.test_case.launched.strftime('%Y/%m/%d %H:%M')
                 })
 
-        return {"Project": project, "results": results}
+        return {
+                "Project": project,
+                "results": results,
+                "passed":0,
+                "failed":0,
+                "ignored":0,
+                "new_failures":0
+                }
     def get_table():
         return {"table":"gotten"}
     def get_projects():
@@ -105,9 +112,20 @@ class database_actions:
         v = q.all()
         results = []
         for i in v:
-            results.append({"id":i.id,"name":i.project_name})
+            results.append(
+            {"id":i.id,
+            "name":i.project_name,
+            "passed":0,
+            "failed":0,
+            "ignored":0,
+            "new_failures":0
+            })
         return {
-        "results":results
+        "results":results,
+        "passed":0,
+        "failed":0,
+        "ignored":0,
+        "new_failures":0
         }
 
     def add_from_file(dictionaried, project="Unknown"):
@@ -116,15 +134,17 @@ class database_actions:
         try:
             proj_query = db.session.query(projects).filter_by(project_name = project)
             proj_result = proj_query.one()
+            proj_id = proj_result.id
         except MultipleResultsFound as e:
             print("WARNING: Multiple projects found with the same name. Using the first")
             proj_result = proj_query.first()
         except NoResultFound as e:
-            print("Project not found. Creating it")
-            proj_result = projects(project_name=project)
+            print("Error: Project not found. Adding it")
+            proj_result = projects(id=None,project_name=project)
             db.session.add(proj_result)
             db.session.flush()
-        proj_id = proj_result.id
+            proj_id = proj_result.id
+
         #add test_suite if not exists
         try:
             ts_query = db.session.query(test_suite).filter_by(project=proj_id).filter_by(testsuite=dictionaried['SuiteInfo'][0]['suiteName'])
@@ -174,7 +194,23 @@ class database_actions:
                 db.session.add(new_issue)
             db.session.commit()
         print("\n\nFile Parsed")
+
+        calculate_averages(proj_id)
         return 0
+    def calculate_averages(project_id)
+        try:
+            proj_query = db.session.query(projects).filter_by(project_name = project)
+            proj_result = proj_query.one()
+            proj_id = proj_result.id
+        except MultipleResultsFound as e:
+            print("WARNING: Multiple projects found with the same name. Using the first")
+            proj_result = proj_query.first()
+        except NoResultFound as e:
+            print("Error: Project not found. Adding it")
+            proj_result = projects(id=None,project_name=project)
+            db.session.add(proj_result)
+            db.session.flush()
+            proj_id = proj_result.id
 
     def seed():
         try:

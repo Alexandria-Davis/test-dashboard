@@ -4,11 +4,18 @@
 <table>
   <tr>
     <th>Project</th>
-
+    <th>Passing</th>
+    <th>Failing</th>
+    <th>Didn't run</th>
+    <th>New Failures</th>
   </tr>
   <tr *ngFor="let proj of this.project_listings">
     <td>
       <a [routerLink]="['/project', proj.id]">{{proj.name}}</a>
     </td>
+    <td>{{proj.passed}}</td>
+    <td>{{proj.failed}}</td>
+    <td>{{proj.ignored}}</td>
+    <td>{{proj.new_failures}}</td>
   </tr>
 </table>

@@ -6,7 +6,10 @@ from app import db
 class projects(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     project_name = db.Column(db.String(64), index=True,unique=False)
-
+    passing = db.Column(db.Integer, index=False, unique=False)
+    failing = db.Column(db.Integer, index=False, unique=False)
+    didnt_run = db.Column(db.Integer, index=False, unique=False)
+    new_fail = db.Column(db.Integer, index=False, unique=False)
 class testRun(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True, unique=False)
