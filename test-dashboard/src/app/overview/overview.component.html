@@ -1,42 +1,46 @@
-<h1>
-  Welcome to {{ title }}!
-</h1> 
-<p>
-  overview works!
-</p>
-<div class="durration_box">
-  <div class="label">Total Duration</div>
-  <div class="durration">{{durration}}</div>
+<div class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 1594px;">
+  <div class="uk-container uk-container-expand">
+    <nav class="uk-navbar">
+      <div class="uk-navbar-left">
+        <h1>CIG Test Dashboard</h1>
+   </div> 
+</nav>
 </div>
-<div class="statarea">
-  <div class="statbox">
-    <div class="label"id="pass">Passed</div>
-    <div class="numbox">{{ passed }}</div>
-  </div>
-  <div class="statbox">
-    <div class="label"id="fail"><a href= "/failures">Failed</a></div>
-    <div class="numbox">{{ failed }}</div>
-  </div>
-  <div class="statbox">
-    <div class="label">Ignored</div>
-    <div class="numbox">{{ no_run }}</div>
-  </div>
-  <div class="statbox">
-    <div class="label">Total</div>
-    <div class="numbox">{{ total }}</div>
-  </div>
-  <div class="statbox">
-    <div class="label">New Failures</div>
-    <div class="numbox">{{ new_fail }}</div>
-    <div class="viewmore">View failed tests</div>
-  </div>
 </div>
+ 
+<div class="tm-sidebar-left uk-visible@m">
+    <div class="statbox">
+            <div class="label">Total Duration</div>
+            <div class="durration">{{durration}}</div>
+      <div class="label"id="pass">Passed</div>
+      <div class="numbox">{{ passed }}</div>
+    </div>
+    <div class="statbox">
+      <div class="label"id="fail"><a href= "/failures">Failed</a></div>
+      <div class="numbox">{{ failed }}</div>
+    </div>
+    <div class="statbox">
+      <div class="label">Ignored</div>
+      <div class="numbox">{{ no_run }}</div>
+    </div>
+    <div class="statbox">
+      <div class="label">Total</div>
+      <div class="numbox">{{ total }}</div>
+    </div>
+    <div class="statbox">
+      <div class="label">New Failures</div>
+      <div class="numbox">{{ new_fail }}</div>
+      <div class="viewmore">View failed tests</div>
+    </div>
+  </div>
+  <div class = "testhead">
+      <h2>Test Results:</h2>
+  </div>
+<div class="uk-container uk-container-small uk-position-relative">
 
-
-<h2>Test Lists</h2>
-<ul class="tests">
+<ul class="uk-list uk-list-divider">
   <li *ngFor = "let test of tests">
-    <div class = "testlist" [ngStyle]= "{'background-color': test.status === 'passed' ? 'palegreen' : 'orangered' }">
+    <div class = "testlist" [ngStyle]= "{'background': test.status === 'passed' ? 'linear-gradient(to right, rgb(60, 246, 80), rgb(255, 255, 255))' : 'linear-gradient(to right, rgb(246, 82, 49), rgb(255, 255, 255))' }">
         <h2 class="badge">{{test.name}}</h2>
           <ul>
             <div class = "details">{{test.status}}!</div>
@@ -48,3 +52,4 @@
     
   </li>
 </ul>
+</div>

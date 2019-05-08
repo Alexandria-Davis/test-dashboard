@@ -1,14 +1,11 @@
 h1{
-  background-color: red;
-  color: white;
-  border-radius: 30px;
-  font-family: monospace;
-  font-size: 30px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 40px;
 }
 .statarea{
   background-color: beige;
   font-size: 20px;
-  text-align: center;
+  text-align: left;
   color: black;
   margin: 10px;
   padding: 15px;
@@ -22,7 +19,7 @@ h1{
 p {
   font-size: 25px;
   font-weight: bold;
-  text-align: center;
+  text-align: left;
   color: black;
   font-family: monospace;
   visibility: hidden;
@@ -35,13 +32,11 @@ body{
   color: black;
 }
 .durration_box {
-  font-size: 30px;
+  font-size: 15px;
   color: black;
   font-family: monospace;
-  text-align: center;
   padding: 10px;
   background-color: lightgray;
-  border-radius: 10px;
   margin: 10px;
 }
 .durration{
@@ -57,13 +52,11 @@ body{
 .viewmore{
   visibility: hidden;
 }
-.testlist{
-  padding: 10px;
-  margin: 10px;
-  border-radius: 10px;
-  width: 50.00%;
+// .testlist{
 
-}
+
+//   position : center;
+// }
 .badge{
   text-align: left;
   font-family: Cambria, serif;
@@ -72,4 +65,25 @@ body{
 .details{
   text-align: right;
   font-family: Cambria, serif;
+}
+.tm-sidebar-left {
+
+  position: fixed;
+  top: 80px;
+  bottom: 0;
+  box-sizing: border-box;
+  width: 240px !important;
+  padding: 40px 40px 60px 40px;
+  border-right: 1px #e5e5e5 solid;
+  overflow: auto;
+  text-align: left;
+
+}
+.uk-container-small{
+  margin-left: 276px;
+}
+@media only screen and (max-width: 970px) {
+  .uk-container{
+    margin-left: 10px;
+  }
 }
