@@ -8,14 +8,14 @@ services:
     ports:
       - 127.0.0.1:5001:80
     depends_on:
-      - test_storage
-  test_storage:
+      - test-storage
+  test-storage:
     build: ./python/
     restart: "no"
     networks:
       dbnet:
         aliases:
-          - test_storage
+          - test-storage
     extra_hosts:
       - "dbhost:127.0.0.1"
     ports:
