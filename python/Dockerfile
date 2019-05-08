@@ -8,4 +8,4 @@ RUN pip install mysqlclient
 COPY . .
 WORKDIR /usr/src/app/flaskFiles
 
-CMD ["flask", "run"]
+CMD ["flask", "run", "--host=0.0.0.0"]
