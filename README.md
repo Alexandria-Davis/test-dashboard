@@ -21,10 +21,10 @@ Clients will be attempting to reach the flask server at this URL, so do not set 
 
 Running both Angular and Flask Servers:
 - If this is the first time the code has been run, or if there have been any changes, Run:
-```  
-Docker-compose build; docker-compose up;
-```
-on root project folder.
+        ```  
+        Docker-compose build; docker-compose up;
+        ```
+        on root project folder.
 
 - If this gives no errors then skip ‘Running Flask file’ and ‘Running Angular web service’
 - If this is not the first time running the dashboard, you can run docker-compose up on its own to save time.
@@ -36,9 +36,9 @@ Running Flask File:
     pip install -r requirements.txt
     ```
     - Run
-    ```
-    flask run
-     ```
+            ```
+            flask run
+            ```
     - URL to view flask information : http://127.0.0.1:5000/
 
 Parsing XML File:
@@ -51,7 +51,7 @@ Running Angular web service:
         - Node js
         - Other dependencies can be found at ‘https://angular.io/guide/quickstart’
     - Write command
-    ```
-     ng -o serve
-     ```
+            ```
+            ng -o serve
+            ```
     - This shall open up the web service for you
