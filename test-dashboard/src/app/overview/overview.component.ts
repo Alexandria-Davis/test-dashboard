@@ -40,12 +40,12 @@ export class OverviewComponent implements OnInit {
   //   "test_name": "sample_disabled_test"
   // }]
 
-  passed;
-  failed;
-  durration;
-  total;
+  passed = 0;
+  failed = 0;
+  durration = 0;
+  total = 0;
   new_fail;
-  no_run;
+  no_run = 0;
   title;
   tests : test[];
   //goodTests : Object
@@ -55,7 +55,6 @@ export class OverviewComponent implements OnInit {
 
   ngOnInit() {
     this.getTestManifest();
-  
     //console.log("After subscribe call  " , this.tests)
     // let evilResponseProps = Object.keys(test);
     // // Step 2. Create an empty array.
@@ -78,14 +77,36 @@ export class OverviewComponent implements OnInit {
 
   }
   deal_with_stuff(results:testlist): void{
-    console.log(results)
+    //console.log(results)
     this.tests = results.results;
     //console.log(results,"!!!!!!!");
-    console.log("tests is set", this.tests[2]);
+    console.log("tests is set", this.tests[32].status)
+    for(let test of this.tests){
+      if(test.status == "passed"){
+        this.passed += 1;
+      }
+      else if( test.status == "ignored"){
+        this.no_run += 1;
+      }
+      else{
+        this.failed +=1;
+      }
+    }
+    this.total = this.passed + this.failed + this.no_run;
+    console.log(this.passed);
   }
   getTestManifest(): void{
     this.testService.getTestManifest(1)
         .subscribe(tests => this.deal_with_stuff(tests));
+  }
+  getpassedcount(tests : test[]): number{
+    console.log("Begin passed");
+    this.getTestManifest();
+    console.log(tests);
+    for(let test of tests){
+      console.log(test);
+      return 1;
+    }
   }
 
 }
