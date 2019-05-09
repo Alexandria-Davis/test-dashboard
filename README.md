@@ -21,8 +21,7 @@ Clients will be attempting to reach the flask server at this URL, so do not set 
 
 Running both Angular and Flask Servers:
 - If this is the first time the code has been run, or if there have been any changes, Run:
-```
-Docker-compose build; docker-compose up;
+``` Docker-compose build; docker-compose up;
 ```
 on root project folder.
 
@@ -31,8 +30,10 @@ on root project folder.
 
 Running Flask File:
 - Make sure to be in the directory test-dashboard/python/flaskFiles
-    - ''' pip install -r requirements.txt '''
-    - Run ''' flask run '''
+    - ``` pip install -r requirements.txt
+    ```
+    - Run ``` flask run
+     ```
     - URL to view flask information : http://127.0.0.1:5000/
 
 Parsing XML File:
@@ -44,5 +45,6 @@ Running Angular web service:
     - Make sure you have angular dependencies downloaded:
         - Node js
         - Other dependencies can be found at ‘https://angular.io/guide/quickstart’
-    - Write command ''' ng -o serve '''
+    - Write command ``` ng -o serve
+     ```
     - This shall open up the web service for you
