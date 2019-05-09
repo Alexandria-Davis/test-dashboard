@@ -2,7 +2,7 @@
 **Prerequisites via docker-compose:**
 - Download MySQL database: https://www.mysql.com/downloads/
 - Install Docker-compose on your device: ‘https://docs.docker.com/install/’
-- Download should be Docker Desktop download
+    - Download should be Docker Desktop download
 
 **Prerequisites via manual:**
 - Node JS
