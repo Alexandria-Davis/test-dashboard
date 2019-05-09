@@ -12,7 +12,6 @@ import {ActivatedRoute} from "@angular/router";
   /*directives: [FailuresComponent]*/
 })
 export class OverviewComponent implements OnInit {
-
   passed;
   failed;
   durration;
@@ -20,20 +19,38 @@ export class OverviewComponent implements OnInit {
   new_fail;
   no_run;
   title;
-  tests : test[];
-  project_name: string;
+  tests : test[] = [
+    {last_run: "Thu, 07 Mar 2019 00:00:00 GMT", name: "sample_passing_test", status: "passed", test_id: "5", test_name_id: "1", time: 7.38},
+    {last_run: "Thu, 07 Mar 2019 00:00:00 GMT", name: "sample_failing_test", status: "failure", test_id: "5", test_name_id: "1", time: 7.38},
+    {last_run: "Thu, 07 Mar 2019 00:00:00 GMT", name: "sample_ignore_test", status: "ignored", test_id: "5", test_name_id: "1", time: 7.38},
+    {last_run: "Thu, 07 Mar 2019 00:00:00 GMT", name: "sample_passing_test2", status: "passed", test_id: "5", test_name_id: "1", time: 7.38}
+    ];
+  project_name: string = "Project 1";
 
   constructor(private testService: TestsService, private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.getTestManifest();
+    // this.getTestManifest();  //uncomment on live
 
   }
   deal_with_stuff(results:testlist): void{
     console.log(results)
     this.project_name = results.Project;
     this.tests = results.results;
+    for(let test of this.tests){
+      if(test.status == "passed"){
+        this.passed += 1;
+      }
+      else if( test.status == "ignored"){
+        this.no_run += 1;
+      }
+      else{
+        this.failed +=1;
+      }
+      this.durration += Math.floor(test.time);
+    }
+    this.total = this.passed + this.failed + this.no_run;
   }
   getTestManifest(): void{
     this.route.params.subscribe(
@@ -41,5 +58,5 @@ export class OverviewComponent implements OnInit {
         .subscribe(tests => this.deal_with_stuff(tests))
     );
   }
-
+  
 }
