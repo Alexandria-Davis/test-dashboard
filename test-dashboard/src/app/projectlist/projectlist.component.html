@@ -1,0 +1,17 @@
+
+<h1>
+  Select a project
+</h1>
+<div class="uk-container uk-container-small uk-position-relative">
+<table class="uk-table uk-table-justify uk-table-divider">
+  <tr>
+    <th>Project</th>
+
+  </tr>
+  <tr *ngFor="let proj of this.project_listings">
+    <td>
+      <a [routerLink]="['/project', proj.id]">{{proj.name}}</a>
+    </td>
+  </tr>
+</table>
+</div>

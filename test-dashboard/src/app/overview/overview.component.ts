@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 /*import { FailuresComponent } from './failures/index';*/
 import {TestsService} from '../tests.service';
 import { Observable, of } from 'rxjs';
 import {test, testlist } from '../test';
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'project-overview',
@@ -11,49 +12,52 @@ import {test, testlist } from '../test';
   /*directives: [FailuresComponent]*/
 })
 export class OverviewComponent implements OnInit {
-  passed;
-  failed;
-  durration;
-  total;
+  passed: number = 0;
+  failed: number = 0;
+  durration: number = 0;
+  total: number = 0;
   new_fail;
-  no_run;
+  no_run: number = 0;
   title;
   tests : test[];
-  //goodTests : Object
+  // tests : test[] = [
+  //   {last_run: "Thu, 07 Mar 2019 00:00:00 GMT", name: "sample_passing_test", status: "passed", test_id: "5", test_name_id: "1", time: 7.38},
+  //   {last_run: "Thu, 07 Mar 2019 00:00:00 GMT", name: "sample_failing_test", status: "failure", test_id: "5", test_name_id: "1", time: 7.38},
+  //   {last_run: "Thu, 07 Mar 2019 00:00:00 GMT", name: "sample_ignore_test", status: "ignored", test_id: "5", test_name_id: "1", time: 7.38},
+  //   {last_run: "Thu, 07 Mar 2019 00:00:00 GMT", name: "sample_passing_test2", status: "passed", test_id: "5", test_name_id: "1", time: 7.38}
+  //   ];
+  project_name: string;
 
-  constructor(private testService: TestsService) { }
+  constructor(private testService: TestsService, private route: ActivatedRoute) {
+  }
 
   ngOnInit() {
-    this.getTestManifest();
-    console.log("After subscribe call  " , this.tests)
-    // let evilResponseProps = Object.keys(test);
-    // // Step 2. Create an empty array.
-    // let goodTests = [];
-    // // Step 3. Iterate throw all keys.
-    // for (prop of evilResponseProps) {
-    //   goodTests.push(evilResponseProps[prop]);
-    // }
-    // return goodTests;
-    // console.log(this.tests)
-    //this.tests = this.testService.getTestManifest(1);
-    // /*Start Temp Data*/
-    // this.passed = 3;
-    // this.failed = 6;
-    // this.no_run = 2;
-    // this.total = this.passed + this.failed + this.no_run;
-    // this.new_fail = 4;s
-    // this.durration = "34H 23M 11S";
-    // /*End Temp Data*/
+    this.getTestManifest();  //uncomment on live
 
   }
   deal_with_stuff(results:testlist): void{
+    console.log(results)
+    this.project_name = results.Project;
     this.tests = results.results;
-    console.log(results);
-    console.log("tests is set", this.tests)
+    for(let test of this.tests){
+      if(test.status == "passed"){
+        this.passed += 1;
+      }
+      else if( test.status == "ignored"){
+        this.no_run += 1;
+      }
+      else{
+        this.failed +=1;
+      }
+      this.durration += Math.floor(test.time);
+    }
+    this.total = this.passed + this.failed + this.no_run;
   }
   getTestManifest(): void{
-    this.testService.getTestManifest(1)
-        .subscribe(tests => this.deal_with_stuff(tests));
+    this.route.params.subscribe(
+      params => this.testService.getTestManifest(params['id'])
+        .subscribe(tests => this.deal_with_stuff(tests))
+    );
   }
 
 }

@@ -10,6 +10,7 @@ import { OverviewComponent } from './overview/overview.component';
 import { TestableComponent } from './testable/testable.component';
 import { FailuresComponent } from './failures/failures.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { ProjectlistComponent } from './projectlist/projectlist.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
     TestListComponent,
     OverviewComponent,
     TestableComponent,
-    FailuresComponent
+    FailuresComponent,
+    ProjectlistComponent
   ],
   imports: [
     BrowserModule,
