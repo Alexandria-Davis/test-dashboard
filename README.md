@@ -31,10 +31,13 @@ on root project folder.
 
 Running Flask File:
 - Make sure to be in the directory test-dashboard/python/flaskFiles
-    - ```
+    -
+    ```
     pip install -r requirements.txt
     ```
-    - Run ``` flask run
+    - Run
+    ```
+    flask run
      ```
     - URL to view flask information : http://127.0.0.1:5000/
 
@@ -47,7 +50,8 @@ Running Angular web service:
     - Make sure you have angular dependencies downloaded:
         - Node js
         - Other dependencies can be found at ‘https://angular.io/guide/quickstart’
-    - Write command ```
+    - Write command
+    ```
      ng -o serve
      ```
     - This shall open up the web service for you
