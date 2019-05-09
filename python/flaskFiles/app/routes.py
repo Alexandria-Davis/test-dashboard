@@ -34,8 +34,11 @@ def index():
                     testInfo = parsexmlFile(f"{app.config['UPLOAD_FOLDER']}{filename}")
                     database_actions.add_from_file(testInfo, project=proj)
                     processed[filename] = True
+                    os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             except Exception as e:
                     processed[filename] = False
+                    os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
         responce = jsonify(processed)
         responce.headers.add("Access-Control-Allow-Origin", "*")
         responce.headers.add("Access-Control-Allow-Headers", "*")
