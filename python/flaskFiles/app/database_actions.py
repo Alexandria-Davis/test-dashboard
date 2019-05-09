@@ -152,7 +152,7 @@ class database_actions:
             if entry["failure"]:
                 status="failure"
             if entry["ignored"]:
-                status == "ignored"
+                status = "ignored"
 
             new_test_case = test_case(test_id=name_id,test_suite=test_suite_id, classname=entry["className"],time=entry["time"],status=status,launched=dictionaried["SuiteInfo"][0]["date"])
             db.session.add(new_test_case)
