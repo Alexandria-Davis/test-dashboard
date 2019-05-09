@@ -39,7 +39,7 @@ export class OverviewComponent implements OnInit {
   //   "status": "passed",
   //   "test_name": "sample_disabled_test"
   // }]
-
+  temptests : test[] = {last_run: "Thu, 07 Mar 2019 00:00:00 GMT", name: "sample_passing_test", status: "passed", test_id: 5, test_name_id: 1, time: 7.38};
   passed = 0;
   failed = 0;
   durration = 0;
@@ -93,7 +93,10 @@ export class OverviewComponent implements OnInit {
       }
     }
     this.total = this.passed + this.failed + this.no_run;
-    console.log(this.passed);
+    //console.log(this.passed);
+    for(let test of this.tests){
+      this.durration += Math.floor(test.time);
+    }
   }
   getTestManifest(): void{
     this.testService.getTestManifest(1)
