@@ -122,7 +122,7 @@ class database_actions:
             print("WARNING: Multiple test suites found with the same suite name and project. Using the first")
             ts_result = ts_query.first()
         except NoResultFound as e:
-            ts_result = test_suite(testsuite=dictionaried['SuiteInfo'][0]['suiteName'])
+            ts_result = test_suite(testsuite=dictionaried['SuiteInfo'][0]['suiteName'], project=proj_id)
             db.session.add(ts_result)
             db.session.flush()
         test_suite_id = ts_result.id

@@ -21,6 +21,7 @@ def allowed_file(filename):
 @app.route('/index', methods=['POST', 'GET'])
 def index():
     if request.method == 'POST':
+        proj = request.form["project"]
         # check if the post request has the file part
         if 'file' not in request.files:
             flash('No file part')
@@ -36,25 +37,21 @@ def index():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             testInfo = parsexmlFile(f"{app.config['UPLOAD_FOLDER']}{filename}")
             # pprint(testInfo)
-            database_actions.add_from_file(testInfo)
+            database_actions.add_from_file(testInfo, project=proj)
             return render_template('index.html', title = "File Parsed", TestInformation = testInfo)
     return '''
     <!doctype html>
     <title>Upload new File</title>
     <h1>Upload new File</h1>
     <form method=post enctype=multipart/form-data>
+      <label for="project">Project</label><br/><br/>
+      <input type="text" name="project">
+      <br/><br/>
+      <label for="file">Upload file:</label><br/><br/>
       <input type=file name=file>
       <input type=submit value=Upload>
     </form>
     '''
-    # xmldir = 'app/xml/'
-    # testFileName = 'TEST-SmokeTest.xml'
-    #
-    # testInfo = parsexmlFile(xmldir + testFileName)
-    # pprint(testInfo)
-    # database_actions.add_from_file(testInfo)
-    # return render_template('index.html', title = testFileName, TestInformation = testInfo)
-
 @app.route('/api')
 def api():
     allowed = True
