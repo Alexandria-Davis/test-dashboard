@@ -22,23 +22,25 @@ def allowed_file(filename):
 def index():
     if request.method == 'POST':
         proj = request.form["project"]
-        # check if the post request has the file part
-        if 'file' not in request.files:
-            flash('No file part')
-            return redirect(request.url)
-        file = request.files['file']
-        # if user does not select file, browser also
-        # submit an empty part without filename
-        if file.filename == '':
-            flash('No selected file')
-            return redirect(request.url)
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            testInfo = parsexmlFile(f"{app.config['UPLOAD_FOLDER']}{filename}")
-            # pprint(testInfo)
-            database_actions.add_from_file(testInfo, project=proj)
-            return render_template('index.html', title = "File Parsed", TestInformation = testInfo)
+        files = request.files.getlist('file[]')
+        processed = {}
+        for file in files:
+            try:
+                if file.filename == '':
+                     pass;
+                if file and allowed_file(file.filename):
+                    filename = secure_filename(file.filename)
+                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                    testInfo = parsexmlFile(f"{app.config['UPLOAD_FOLDER']}{filename}")
+                    database_actions.add_from_file(testInfo, project=proj)
+                    processed[filename] = True
+            except Exception as e:
+                    processed[filename] = False
+        responce = jsonify(processed)
+        responce.headers.add("Access-Control-Allow-Origin", "*")
+        responce.headers.add("Access-Control-Allow-Headers", "*")
+        responce.headers.add("Access-Control-Allow-Methods", "*")
+        return responce
     return '''
     <!doctype html>
     <title>Upload new File</title>
@@ -48,7 +50,7 @@ def index():
       <input type="text" name="project">
       <br/><br/>
       <label for="file">Upload file:</label><br/><br/>
-      <input type=file name=file>
+      <input type="file" name="file[]" multiple>
       <input type=submit value=Upload>
     </form>
     '''
