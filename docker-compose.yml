@@ -1,0 +1,24 @@
+version: "3"
+services:
+  test_dashboard:
+    build: ./test-dashboard
+    restart: "no"
+    networks:
+      dbnet:
+    ports:
+      - 127.0.0.1:5001:80
+    depends_on:
+      - test-storage
+  test-storage:
+    build: ./python/
+    restart: "no"
+    networks:
+      dbnet:
+        aliases:
+          - test-storage
+    extra_hosts:
+      - "dbhost:127.0.0.1"
+    ports:
+      - 127.0.0.1:5000:5000
+networks:
+  dbnet:
