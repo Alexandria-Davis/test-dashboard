@@ -9,13 +9,16 @@ from app import app
 from app.database_actions import database_actions
 from app.parsingXML import parsexmlFile
 from pprint import pprint
+from werkzeug.utils import secure_filename
+import os
 
 def allowed_file(filename):
+    ALLOWED_EXTENSIONS = set(['txt', 'xml'])
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-@app.route('/')
-@app.route('/index')
+@app.route('/', methods=['POST', 'GET'])
+@app.route('/index', methods=['POST', 'GET'])
 def index():
     if request.method == 'POST':
         # check if the post request has the file part

@@ -6,7 +6,10 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 #from flaskext.mysql import MySQL
 
+UPLOAD_FOLDER= 'xml/'
+
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 #@app.route('/')
 app.config.from_object(Config)
 CORS(app)
