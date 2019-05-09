@@ -20,9 +20,9 @@ Configuring Angular:
 Clients will be attempting to reach the flask server at this URL, so do not set it to “localhost”!
 
 Running both Angular and Flask Servers:
-- If this is the first time the code has been run, or if there have been any changes, Run: '''
+- If this is the first time the code has been run, or if there have been any changes, Run: ```
 Docker-compose build; docker-compose up;
-''' on root project folder.
+ ``on root project folder.
 - If this gives no errors then skip ‘Running Flask file’ and ‘Running Angular web service’
 - If this is not the first time running the dashboard, you can run docker-compose up on its own to save time.
 
