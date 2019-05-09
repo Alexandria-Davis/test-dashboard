@@ -6,7 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 #from flaskext.mysql import MySQL
 
-UPLOAD_FOLDER= 'xml/'
+UPLOAD_FOLDER= '/tmp/'
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER

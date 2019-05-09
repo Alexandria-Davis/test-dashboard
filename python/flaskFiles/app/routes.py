@@ -34,10 +34,10 @@ def index():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            testInfo = parsexmlFile(xmldir + testFileName)
+            testInfo = parsexmlFile(f"{app.config['UPLOAD_FOLDER']}{filename}")
             # pprint(testInfo)
             database_actions.add_from_file(testInfo)
-            return render_template('index.html', title = testFileName, TestInformation = testInfo)
+            return render_template('index.html', title = "File Parsed", TestInformation = testInfo)
     return '''
     <!doctype html>
     <title>Upload new File</title>
