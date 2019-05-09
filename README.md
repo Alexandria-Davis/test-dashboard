@@ -30,11 +30,11 @@ Clients will be attempting to reach the flask server at this URL, so do not set 
 - If this is not the first time running the dashboard, you can run docker-compose up on its own to save time.
 
 **Running Flask File :**
-- Be sure to be in the directory 'test-dashboard/python/flaskFiles' 
-    -
-    ```
-    pip install -r requirements.txt
-    ```
+-  Be sure to be in the directory 'test-dashboard/python/flaskFiles' 
+    - Run
+          ```
+          pip install -r requirements.txt
+          ```
     - Run
             ```
             flask run
