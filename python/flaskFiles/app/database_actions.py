@@ -122,7 +122,7 @@ class database_actions:
             print("WARNING: Multiple test suites found with the same suite name and project. Using the first")
             ts_result = ts_query.first()
         except NoResultFound as e:
-            ts_result = test_suite(testsuite=dictionaried['SuiteInfo'][0]['suiteName'])
+            ts_result = test_suite(testsuite=dictionaried['SuiteInfo'][0]['suiteName'], project=proj_id)
             db.session.add(ts_result)
             db.session.flush()
         test_suite_id = ts_result.id
@@ -152,7 +152,7 @@ class database_actions:
             if entry["failure"]:
                 status="failure"
             if entry["ignored"]:
-                status == "ignored"
+                status = "ignored"
 
             new_test_case = test_case(test_id=name_id,test_suite=test_suite_id, classname=entry["className"],time=entry["time"],status=status,launched=dictionaried["SuiteInfo"][0]["date"])
             db.session.add(new_test_case)
