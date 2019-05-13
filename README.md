@@ -2,7 +2,7 @@
 **Prerequisites via docker-compose:**
 - Download MySQL database: https://www.mysql.com/downloads/
 - Install Docker-compose on your device: ‘https://docs.docker.com/install/’
-- Download should be Docker Desktop download
+    - Download should be Docker Desktop download
 
 **Prerequisites via manual:**
 - Node JS
@@ -28,6 +28,8 @@ Clients will be attempting to reach the flask server at this URL, so do not set 
 
 - If this gives no errors then skip ‘Running Flask file’ and ‘Running Angular web service’
 - If this is not the first time running the dashboard, you can run docker-compose up on its own to save time.
+- Angular server available at: http://0.0.0.0:5001/
+- Flask Server available at: http://127.0.0.1:5000/
 
 **Running Flask File :**
 -  Be sure to be in the directory 'test-dashboard/python/flaskFiles' 
