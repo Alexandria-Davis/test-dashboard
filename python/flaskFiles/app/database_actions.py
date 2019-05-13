@@ -1,6 +1,5 @@
 from app.models import *
 from app import db
-from pprint import pprint
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.orm.exc import MultipleResultsFound
 from sqlalchemy import func
@@ -11,17 +10,86 @@ class database_actions:
         return
     def dostuff(action,params):
         json = {}
+        if (action == "get_fails"):
+            json.update(database_actions.get_fails(params["Project_id"]))
         if (action == "seed"):
             json.update(database_actions.seed());
         if (action == "get_table"):
             json.update(database_actions.get_table())
         if (action == "query_tests"):
             json.update(database_actions.get_tests_for_project(params["Project_id"]))
+            json.update(database_actions.calculate_averages(params["Project_id"]))
         if (action == "query_projects"):
             json.update(database_actions.get_projects())
         if (action== "test_overview"):
             json.update(database_actions.get_test_overview(params["Project_id"]))
         return json
+    def get_fails(project_id):
+        tempqry = db.session.query(
+            func.max(test_case.launched).label('launched'),
+            test_case.test_id,
+            test_names.test_name
+        ).join(
+            test_names,
+            test_case.test_id == test_names.id
+        ).filter(
+            test_suite.project == project_id
+        ).group_by(
+            test_case.test_id
+        ).subquery()
+
+        issue_list=db.session.query(
+            test_case.id,
+            tempqry.c.test_name,
+            issues.status,
+            issues.output,
+
+        ).join(
+            tempqry,
+            test_case.test_id == tempqry.c.test_id,
+        ).join(
+            issues,
+            test_case.id == issues.test
+        ).filter(
+            test_case.launched == tempqry.c.launched
+        ).all()
+        return {"messages": [issue_list]}
+    def calculate_averages(project_id):
+        tempqry = db.session.query(
+            func.max(test_case.launched).label('launched'),
+            test_case.test_id
+        ).join(
+            test_suite,
+            test_case.test_suite == test_suite.id
+        ).filter(
+            test_suite.project == project_id
+        ).group_by(
+            test_case.test_id
+        ).subquery()
+
+        last_run=db.session.query(
+            test_case.status,
+            func.count(test_case.status).label("Count")
+        ).join(
+            tempqry,
+            test_case.test_id == tempqry.c.test_id,
+        ).filter(
+            test_case.launched == tempqry.c.launched
+        ).group_by(
+            test_case.status
+        )
+        #current_project = db.session.query(projects).filter(projects.id == project_id).first()
+        output = last_run.all()
+        results = {"passes":0,"fails":0,"skips":0}
+
+        for result in output:
+            if (result[0] == "failure"):
+                results["fails"] = result[1]
+            if (result[0] == "passed"):
+                results["passes"] = result[1]
+            if (result[0] == "ignored"):
+                results["skips"] = result[1]
+        return {"grouped":results}
 
     def get_test_overview(proj_id):
         q = db.session.query(
@@ -42,8 +110,6 @@ class database_actions:
             test_case.status
         )
         results = q.all()
-        print(q)
-        pprint(results)
         to_return = {};
         newlist = []
         for item in results:
@@ -100,8 +166,6 @@ class database_actions:
         }
 
     def add_from_file(dictionaried, project="Unknown"):
-        print("Parsing file\n\n")
-        #Add project if not exists
         try:
             proj_query = db.session.query(projects).filter_by(project_name = project)
             proj_result = proj_query.one()
@@ -133,8 +197,6 @@ class database_actions:
             #Get project name ID
             try:
                 names = db.session.query(test_names).filter(test_names.project == proj_id).filter(test_names.test_name == entry['testName'])
-                print(entry['testName'])
-                print(names)
                 name = names.one()
             except MultipleResultsFound as e:
                 print ("Error: Dublicate test names found for a project. Using the first")
@@ -162,7 +224,6 @@ class database_actions:
                 new_issue = issues(test=new_test_case.id,output=message,status=status)
                 db.session.add(new_issue)
             db.session.commit()
-        print("\n\nFile Parsed")
         return 0
 
     def seed():
