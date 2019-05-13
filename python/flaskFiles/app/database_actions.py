@@ -1,6 +1,5 @@
 from app.models import *
 from app import db
-from pprint import pprint
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.orm.exc import MultipleResultsFound
 from sqlalchemy import func
@@ -90,12 +89,6 @@ class database_actions:
                 results["passes"] = result[1]
             if (result[0] == "ignored"):
                 results["skips"] = result[1]
-
-
-            #case()
-        print("----------------- ")
-        print(last_run)
-        pprint(last_run.all())
         return {"grouped":results}
 
     def get_test_overview(proj_id):
@@ -117,8 +110,6 @@ class database_actions:
             test_case.status
         )
         results = q.all()
-        print(q)
-        pprint(results)
         to_return = {};
         newlist = []
         for item in results:
@@ -175,8 +166,6 @@ class database_actions:
         }
 
     def add_from_file(dictionaried, project="Unknown"):
-        print("Parsing file\n\n")
-        #Add project if not exists
         try:
             proj_query = db.session.query(projects).filter_by(project_name = project)
             proj_result = proj_query.one()
@@ -208,8 +197,6 @@ class database_actions:
             #Get project name ID
             try:
                 names = db.session.query(test_names).filter(test_names.project == proj_id).filter(test_names.test_name == entry['testName'])
-                print(entry['testName'])
-                print(names)
                 name = names.one()
             except MultipleResultsFound as e:
                 print ("Error: Dublicate test names found for a project. Using the first")
@@ -237,7 +224,6 @@ class database_actions:
                 new_issue = issues(test=new_test_case.id,output=message,status=status)
                 db.session.add(new_issue)
             db.session.commit()
-        print("\n\nFile Parsed")
         return 0
 
     def seed():
