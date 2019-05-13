@@ -28,27 +28,33 @@ class database_actions:
     def get_fails(project_id):
         tempqry = db.session.query(
             func.max(test_case.launched).label('launched'),
-            test_case.test_id
+            test_case.test_id,
+            test_names.test_name
         ).join(
-            test_suite,
-            test_case.test_suite == test_suite.id
+            test_names,
+            test_case.test_id == test_names.id
         ).filter(
             test_suite.project == project_id
         ).group_by(
             test_case.test_id
         ).subquery()
-        last_run=db.session.query(
-            test_case.status,
-            func.count(test_case.status).label("Count")
+
+        issue_list=db.session.query(
+            test_case.id,
+            tempqry.c.test_name,
+            issues.status,
+            issues.output,
+
         ).join(
             tempqry,
             test_case.test_id == tempqry.c.test_id,
+        ).join(
+            issues,
+            test_case.id == issues.test
         ).filter(
             test_case.launched == tempqry.c.launched
-        ).group_by(
-            test_case.status
-        )
-        return {}
+        ).all()
+        return {"messages": [issue_list]}
     def calculate_averages(project_id):
         tempqry = db.session.query(
             func.max(test_case.launched).label('launched'),
