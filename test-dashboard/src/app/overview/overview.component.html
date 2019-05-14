@@ -1,50 +1,43 @@
-<h1>
-  Welcome to {{ title }}!
-</h1>
-<p>
-  overview works!
-</p>
-<div class="durration_box">
-  <div class="label">Total Duration</div>
-  <div class="durration">{{durration}}</div>
-</div>
-<div class="statarea">
-  <div class="statbox">
-    <div class="label"id="pass">Passed</div>
-    <div class="numbox">{{ passed }}</div>
-  </div>
-  <div class="statbox">
-    <div class="label"id="fail"><a href= "/failures">Failed</a></div>
-    <div class="numbox">{{ failed }}</div>
-  </div>
-  <div class="statbox">
-    <div class="label">Ignored</div>
-    <div class="numbox">{{ no_run }}</div>
-  </div>
-  <div class="statbox">
-    <div class="label">Total</div>
-    <div class="numbox">{{ total }}</div>
-  </div>
-  <div class="statbox">
-    <div class="label">New Failures</div>
-    <div class="numbox">{{ new_fail }}</div>
-    <div class="viewmore">View failed tests</div>
-  </div>
-</div>
 
-
-<h2>Test Lists</h2>
-<ul class="tests">
-  <li *ngFor = "let test of tests">
-    <div class = "testlist" [ngStyle]= "{'background-color': test.status === 'passed' ? 'palegreen' : 'orangered' }">
-        <h2 class="badge">{{test.name}}</h2>
-          <ul>
-            <div class = "details">{{test.status}}!</div>
-            <div class = "details">Run Count: {{test.run_count}}</div>
-            <div class = "details">Last Run: {{test.last_run}}</div>
-            <div class = "details">Project: {{test.project_id}}</div>
-          </ul>
+<div class="tm-sidebar-left uk-visible@m">
+    <div class="statbox">
+        <div class="label">Total Duration: {{durration}} Seconds</div>
     </div>
-
-  </li>
-</ul>
+  <div class="statbox">
+      <div class="label"id="pass">Passed: {{ passed }}</div>
+    </div>
+    <div class="statbox">
+      <div class="label"id="fail">Failed: {{ failed }}</div>
+    </div>
+    <div class="statbox">
+      <div class="label">Ignored: {{ no_run }}</div>
+    </div>
+    <div class="statbox">
+      <div class="label">Total: {{ total }}</div>
+    </div>
+</div>
+<div class="uk-container uk-container-small uk-position-relative">
+</div>
+<div class="uk-container uk-container-small uk-position-relative">
+  <h1>
+      {{project_name}}
+    </h1>
+    <table class="uk-table uk-table-justify uk-table-divider">
+    <tr>
+      <th>Test Name</th>
+      <th>Status</th>
+      <th>Run Time</th>
+      <th>Last Run</th>
+    </tr>
+    <tr *ngFor = "let test of tests" [ngClass] = "{passgreen: test.status=='passed', failred: test.status =='failure', ignoregrey: test.status=='ignored'}">
+          <td class="details boldme">{{test.name}}</td>
+            <td>
+              <div class = "details">{{test.status}}</div>
+            </td><td>
+              <div class = "details">{{test.time}} seconds</div>
+              </td><td>
+              <div class = "details">{{test.last_run}}</div>
+            </td>
+    </tr>
+  </table>
+</div>

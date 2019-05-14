@@ -1,24 +1,9 @@
 h1{
-  background-color: red;
-  color: white;
-  border-radius: 30px;
-  font-family: monospace;
+
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   font-size: 30px;
 }
-.statarea{
-  background-color: beige;
-  font-size: 20px;
-  text-align: center;
-  color: black;
-  margin: 10px;
-  padding: 15px;
-  position: 20px;
-  font-family: monospace;
-  border-radius: 10px;
-  display: inline-grid;
-  float: right;
-  width: 33.33%;
-}
+
 p {
   font-size: 25px;
   font-weight: bold;
@@ -34,16 +19,7 @@ body{
 .numbox {
   color: black;
 }
-.durration_box {
-  font-size: 30px;
-  color: black;
-  font-family: monospace;
-  text-align: center;
-  padding: 10px;
-  background-color: lightgray;
-  border-radius: 10px;
-  margin: 10px;
-}
+
 .durration{
   letter-spacing: normal;
   color: red;
@@ -64,12 +40,49 @@ body{
   width: 50.00%;
 
 }
-.badge{
-  text-align: left;
-  font-family: Cambria, serif;
+.statbox{
+  margin-bottom: 10px;
+  font-size: 18pt;
 }
 
+.boldme{
+  font-weight: bold;
+  font-size: 14pt;
+}
 .details{
-  text-align: right;
+  text-align: left;
   font-family: Cambria, serif;
+  color: black;
+  padding: .3em;
+}
+.tm-sidebar-left {
+
+  position: fixed;
+  top: 105px;
+  bottom: 0;
+  box-sizing: border-box;
+  width: 240px !important;
+  padding: 40px 40px 60px 40px;
+  border-right: 1px #e5e5e5 solid;
+  overflow: auto;
+  text-align: left;
+
+}
+
+.uk-container-small{
+  margin-left: 250px;
+}
+@media only screen and (max-width: 970px) {
+  .uk-container{
+    margin-left: 10px;
+  }
+}
+.failred{
+  background-color: orangered;
+}
+.passgreen{
+  background-color: lightgreen;
+}
+.ignoregrey{
+  background-color: lightgrey
 }
