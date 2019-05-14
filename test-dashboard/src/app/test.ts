@@ -5,6 +5,7 @@ export class test {
     test_name_id: string;
     time: number;
     status: string;
+    message: string;
   }
 export interface testlist {
   Project: string;
